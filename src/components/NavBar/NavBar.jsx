@@ -12,11 +12,29 @@ const NavBar = (props) => {
                 <Link to="/" className="nav-link active">
                   Home
                 </Link>
-              
             </li>
+
+            <li className="nav-item">
+              <Link to="/document" className="nav-link active">
+                Documents
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link to="/department" className="nav-link active">
+                Departments
+              </Link>
+            </li>
+
             <li className="nav-item">
               <Link to="/login" className="nav-link active">
                 Login
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link to="/profile" className="nav-link active">
+                Profile
               </Link>
             </li>
 
@@ -25,6 +43,19 @@ const NavBar = (props) => {
                 Register
               </Link>
             </li>
+
+            <li className="nav-item">
+              <Link to="/event" className="nav-link active">
+                Add Event
+              </Link>
+              </li>
+
+              <li className="nav-item">
+              <Link to="/calendar" className="nav-link active">
+                Calendar
+              </Link>
+            </li>
+
           </ul>
         </div>
       </nav>

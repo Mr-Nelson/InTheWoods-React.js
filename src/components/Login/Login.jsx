@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import useForm from "../UseForm/useForm";
 
 
@@ -20,7 +21,7 @@ const Login = (props) => {
             type="User Name"
             className="form-control"
             id="floatingInput"
-            placeholder="John123456"
+            placeholder="123somepass"
             onChange={handleChange}
             values = {values.userName}
           />

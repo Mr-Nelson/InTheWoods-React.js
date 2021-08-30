@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import useForm from "../UseForm/useForm";
+import Select from "react-select";
+
 
 const Register = (props) => {
   const { values, handleChange, handleSubmit } = useForm(create);
@@ -9,6 +11,11 @@ const Register = (props) => {
     props.newUser(values);
     setRedirect(true);
   }
+
+  const options = [
+    {value:"true", label: "admin"},
+    {value:"false", label: "user"}
+  ]
   
   return (
     <div>
@@ -86,6 +93,15 @@ const Register = (props) => {
               values={values.phonenumber}
             />
             <label for="floatingInput">Phone Number</label>
+          </div>
+          <div className="form-floating" onChange={handleChange}>
+            <Select
+              name="identityrole"
+              placeholder="select user or admin"
+              options = {options}
+              values={values.identityrole}
+            />
+            <label for="floatingInput">Role</label>
           </div>
           <div className="form-floating">
           <button className="w-10 btn btn-lg btn-primary" type="submit">
