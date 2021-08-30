@@ -6,7 +6,13 @@ import './comment.css';
 const Comment = (props) => {
     const {values, handleChange, handleSubmit} = useForm(create);
     function create () {
-        props.postComment(values);
+        if(values.UserComment != null) {
+            props.postComment(values);
+        }
+        else {
+            props.postSubComment(values);
+        }
+        console.log(values)
     }
 
     return (
@@ -15,7 +21,7 @@ const Comment = (props) => {
                 <div class="d-flex justify-content-center" width="max-width">
                     <tbody>
                         <div class="container">
-                            <tr><td>Into The Woods Q and A</td></tr>
+                            <tr><td><h1>Into The Woods Q and A</h1></td></tr>
                             <td className="d-flex justify-content-center">
                             <form className="col-md-25" onSubmit={handleSubmit}>
                                 <h4 className="h3 mb-3 fw-normal">Leave a Comment!</h4>
@@ -25,7 +31,7 @@ const Comment = (props) => {
                                         type="string"
                                         className="form-control"
                                         placeholder="CommentHere"
-                                        required
+                                        required="true"
                                         onChange={handleChange}
                                         values={values.userComment}
                                     />
@@ -39,7 +45,7 @@ const Comment = (props) => {
                             </form>
                             </td>
                         </div>
-                        <div class="container">
+                        <div class="container" align="center">
                             {props.comments.map((comment, id) => {
                                 return (
                                     <tr className="table-row" key= {id}>
@@ -74,7 +80,7 @@ const Comment = (props) => {
                                                             type="string"
                                                             className="form-control"
                                                             placeholder="CommentHere"
-                                                            required
+                                                            required="true"
                                                             onChange={handleChange}
                                                             values={values.userSubComment}
                                                         />
@@ -95,7 +101,7 @@ const Comment = (props) => {
                 </tbody>
             </div>
         <div class="column" width="100%"></div>         
-        <p className="mt-5 mb-3 text-muted">© 2021</p> 
+        <p className="mt-5 mb-3 text-muted" align="right">© 2021</p> 
         </React.Fragment>
     )
 }

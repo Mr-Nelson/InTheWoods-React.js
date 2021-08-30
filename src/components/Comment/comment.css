@@ -20,6 +20,7 @@
       width: 50px;
   }
   .container {
+      align-self: center;
       margin: 20px;
 
   }

@@ -56,6 +56,12 @@ const NavBar = (props) => {
               </Link>
             </li>
 
+            <li className="nav-item">
+              <Link to="/map" className="nav-link active">
+                Map of Events
+              </Link>
+            </li>
+
           </ul>
         </div>
       </nav>
