@@ -6,12 +6,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 import TitleBar from '../TitleBar/titleBar';
 import NavBar from '../NavBar/navBar';
+import Footer from '../Footer/footer';
 import Feed from '../Feed/feed';
 import Login from '../Login/login';
 import Profile from '../Profile/profile';
 import Registration from '../Registration/registration';
 import Document from '../Documents/documents';
 import Comment from '../Comment/comment';
+import SubComment from '../SubComment/subComment';
 import EventCalendar from '../Calendar/eventCalendar';
 import MakeCalendar from '../Calendar/FullCalendar';
 import Department from '../Departments/department';
@@ -183,8 +185,8 @@ class App extends Component {
           }} */}
         {/* /> */}
           <Route path="/" exact component={Profile}>
-          <Comment userid={this.getUserInfo} getAllSubComments={this.getAllSubComments} subcomments={subcomments} comments={comments} postComment={this.postComment} postSubComment={this.postSubComment}/>
-
+          <Comment  userid={this.getUserInfo} comments={comments} postComment={this.postComment} />
+          <SubComment userid={this.getUserInfo} subcomments={subcomments} postSubComment={this.postSubComment} />
           </Route>
 
           <Route
@@ -236,6 +238,8 @@ class App extends Component {
           />
           <Redirect to="not-found" />
         </Switch>
+        <Footer />
+
       </React.Fragment>
     );
   }

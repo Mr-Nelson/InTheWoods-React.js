@@ -1,12 +1,12 @@
 import React from 'react';
 import useForm from '../UseForm/useForm'
-import './comment.css';
 
 
-const Comment = (props) => {
+const SubComment = (props) => {
     const {values, handleChange, handleSubmit} = useForm(create);
     function create () {
-        props.postComment(values);
+        props.postSubComment(values);
+        console.log(values)
     }
 
     return (
@@ -15,21 +15,20 @@ const Comment = (props) => {
                 <div class="d-flex justify-content-center" width="max-width">
                     <tbody>
                         <div class="container">
-                            <tr><td><h1>Into The Woods Q and A</h1></td></tr>
                             <td className="d-flex justify-content-center">
                             <form className="col-md-25" onSubmit={handleSubmit}>
-                                <h4 className="h3 mb-3 fw-normal">Leave a Comment!</h4>
+                                <h4 className="h3 mb-3 fw-normal">Leave a SubComment!</h4>
                                 <div className="form-floating">
                                     <input
-                                        name="UserComment"
+                                        name="UserSubComment"
                                         type="string"
                                         className="form-control"
                                         placeholder="CommentHere"
                                         required="true"
                                         onChange={handleChange}
-                                        values={values.userComment}
+                                        values={values.userSubComment}
                                     />
-                                    <label for="floatingInput">User Comment </label>
+                                    <label for="floatingInput">User SubComment </label>
                                 </div>
                                 <div className="form-floating" align="right">
                                     <button className="w-10 btn btn-lg btn-primary" type="submit">
@@ -39,22 +38,22 @@ const Comment = (props) => {
                             </form>
                             </td>
                         </div>
-                        <div className="feed" align="center">
-                            {props.comments.map((comment, id) => {
-                                <div key={id} value={comment} />
+                        {/* <div className="feed" align="center">
+                            {props.subComments.map((subcomment, id) => {
+                                <div key={id} value={subcomment} />
                                 return (
                                     <tr className="table-row" key= {id}>
                                         <span>
-                                            <td>{comment.userComment}</td>
+                                            <td>{subcomment.userSubComment}</td>
                                         </span>
                                     </tr>    
                                 )                   
                             })}  
-                        </div>
+                        </div> */}
                 </tbody>
             </div>
         </React.Fragment>
     )
 }
 
-export default Comment;
+export default SubComment;
