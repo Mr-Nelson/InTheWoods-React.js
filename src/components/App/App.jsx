@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 import TitleBar from '../TitleBar/titleBar';
 import NavBar from '../NavBar/navBar';
+import Feed from '../Feed/feed';
 import Login from '../Login/login';
 import Profile from '../Profile/profile';
 import Registration from '../Registration/registration';
@@ -150,7 +151,7 @@ class App extends Component {
   
   getAllSubComments = async (event) => {
       try{
-        const res = await axios.get(`https://localhost:44394/api/subcomment`)
+        const res = await axios.get(`https://localhost:44394/api/subcomment/${event}`)
         this.setState({
           subcomments: res.data
         })

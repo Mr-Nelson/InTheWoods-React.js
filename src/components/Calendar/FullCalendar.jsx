@@ -45,6 +45,7 @@ const MakeCalendar = (props) => {
         <FullCalendar
           plugins={[ dayGridPlugin, interactionPlugin ]}
           dateClick={handleDateClick}
+          eventContent={getEvents}
         />
       )
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import useForm from '../UseForm/useForm';
+import useForm from '../UseForm/useForm'
 import './comment.css';
 
 
@@ -45,8 +45,9 @@ const Comment = (props) => {
                             </form>
                             </td>
                         </div>
-                        <div class="container" align="center">
+                        <div className="feed" align="center">
                             {props.comments.map((comment, id) => {
+                                <div key={id} value={comment} />
                                 return (
                                     <tr className="table-row" key= {id}>
                                         <span>
@@ -60,6 +61,7 @@ const Comment = (props) => {
                                         <span>
                                             <td>
                                                 {props.subcomments.map((subcomment, id) => {
+                                                    <div key={id} value={subcomment} />
                                                     return (
                                                         <tr key= {id}>
                                                             <span><td>{subcomment.userSubComment}</td></span>
@@ -82,7 +84,7 @@ const Comment = (props) => {
                                                             placeholder="CommentHere"
                                                             required="true"
                                                             onChange={handleChange}
-                                                            values={values.userSubComment}
+                                                            values={values.userSubComment, comment.id}
                                                         />
                                                         <label for="floatingInput">User SubComment </label>
                                                     </div>
