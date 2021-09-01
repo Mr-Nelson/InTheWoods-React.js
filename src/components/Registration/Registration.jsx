@@ -11,7 +11,12 @@ const Register = (props) => {
     props.newUser(values);
     setRedirect(true);
     <Redirect to= '/login'/>;
+    cancelCourse();
   }
+  const cancelCourse = () => {
+    document.getElementById("create-course-form").reset();
+  }
+  
 
   const options = [
     {value:"true", label: "admin"},
@@ -21,7 +26,7 @@ const Register = (props) => {
   return (
     <div>
       <div>
-        <form className="col-md-2" onSubmit={handleSubmit} >
+        <form id="create-course-form" className="col-md-2" onSubmit={handleSubmit} >
           <h1 className="h3 mb-3 fw-normal">Please Register</h1>
 
           <div className="form-floating">

@@ -7,7 +7,12 @@ const SubComment = (props) => {
     function create () {
         props.postSubComment(values);
         console.log(values)
+        cancelCourse();
     }
+    const cancelCourse = () => {
+      document.getElementById("create-course-form").reset();
+    }
+    
 
     return (
         <React.Fragment>
@@ -16,7 +21,7 @@ const SubComment = (props) => {
                     <tbody>
                         <div class="container">
                             <td className="d-flex justify-content-center">
-                            <form className="col-md-25" onSubmit={handleSubmit}>
+                            <form id="create-course-form" className="col-md-25" onSubmit={handleSubmit}>
                                 <h4 className="h3 mb-3 fw-normal">Leave a SubComment!</h4>
                                 <div className="form-floating">
                                     <input

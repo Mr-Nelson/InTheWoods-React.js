@@ -10,7 +10,12 @@ const Document = (props) => {
     function create() {
       props.postDocument(values);
       setRedirect(true);
+      cancelCourse();
     }
+    const cancelCourse = () => {
+      document.getElementById("create-course-form").reset();
+    }
+    
     
     return (
       <div>
@@ -19,7 +24,7 @@ const Document = (props) => {
             <h1>Inwood Documents</h1>
           </div>
   
-          <form className="col-md-2" onSubmit={handleSubmit}>
+          <form id="create-course-form" className="col-md-2" onSubmit={handleSubmit}>
             <h1 className="h3 mb-3 fw-normal">Register Document</h1>
   
             <div className="form-floating">

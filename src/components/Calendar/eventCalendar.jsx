@@ -6,7 +6,12 @@ const EventCalendar = (props) => {
     const{values, handleChange, handleSubmit} = useForm(logEvent);
     function logEvent() {
         props.postEvent(values);
-    }
+        cancelCourse();
+      }
+      const cancelCourse = () => {
+        document.getElementById("create-course-form").reset();
+      }
+    
   
     return (
         <div>
@@ -15,7 +20,7 @@ const EventCalendar = (props) => {
             <h1>Event Registration</h1>
           </div>
   
-          <form className="col-md-2" onSubmit={handleSubmit}>
+          <form id="create-course-form" className="col-md-2" onSubmit={handleSubmit}>
             <h2 className="h3 mb-3 fw-normal">Please register event here.</h2>
   
             <div className="form-floating">

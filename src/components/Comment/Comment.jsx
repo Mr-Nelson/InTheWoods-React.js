@@ -7,7 +7,12 @@ const Comment = (props) => {
     const {values, handleChange, handleSubmit} = useForm(create);
     function create () {
         props.postComment(values);
+        cancelCourse();
     }
+    const cancelCourse = () => {
+      document.getElementById("create-course-form").reset();
+    }
+    
 
     return (
         <React.Fragment>
@@ -17,7 +22,7 @@ const Comment = (props) => {
                         <div class="container">
                             <tr><td><h1>Into The Woods Q and A</h1></td></tr>
                             <td className="d-flex justify-content-center">
-                            <form className="col-md-25" onSubmit={handleSubmit}>
+                            <form id="create-course-form" className="col-md-25" onSubmit={handleSubmit}>
                                 <h4 className="h3 mb-3 fw-normal">Leave a Comment!</h4>
                                 <div className="form-floating">
                                     <input
