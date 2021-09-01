@@ -1,19 +1,21 @@
 import React from 'react';
 import useForm from '../UseForm/useForm';
 import { Link, Redirect } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
+import { useRetryHandler } from 'stream-chat-react';
 
 
 const Profile = (props) => {
-    const { values, handleChange, handleSubmit } = useForm(getUserInfo); 
-    function getUserInfo() {
-        props.getUserInfo(values);
-    }
+   const user = props.getUserInfo();
+
+
+    
 
     return (
         <div>
             <div>
                 <div className="row row-spacer">
-                <h1>Welcome {props.firstname}</h1>
+                <h1>Welcome {user.firstname}</h1>
                 </div>
 
                 <table className="col-md-2">
@@ -23,9 +25,9 @@ const Profile = (props) => {
                     name="FirstName"
                     type="string"
                     className="form-control"
-                    values={props.firstname}
+                    values={user.firstname}
                     />
-                    <label for="floatingInput">First Name </label>
+                    <label for="floatingInput">First Name</label>
                 </div>
                 <div className="form-floating">
                     <td
@@ -57,10 +59,10 @@ const Profile = (props) => {
                 <div className="form-floating">
                     <td
                     name="Email"
-                    type="email"
+                    type="string"
                     className="form-control"
                     >{props.email}</td>
-                    <label for="floatingInput">{values.email}</label>
+                    <label for="floatingInput">Email</label>
                 </div>
                 <div className="form-floating">
                     <td
@@ -74,11 +76,12 @@ const Profile = (props) => {
                 <div className="form-floating">
                     <td
                     name="identityrole"
+                    type="string"
+                    className="form-control"
                     values={props.identityrole}
                     />
                     <label for="floatingInput">Role</label>
                 </div>
-                <p className="mt-5 mb-3 text-muted">© 2021</p>
                 </table>
             </div>
         </div>

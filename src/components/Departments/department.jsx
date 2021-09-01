@@ -8,6 +8,7 @@ const Department = (props) => {
     const [ redirect, setRedirect] = useState(false);
     function create() {
       props.postDepartment(values);
+      console.log(values);
       setRedirect(true);
     }
   

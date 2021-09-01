@@ -66,12 +66,11 @@ class App extends Component {
     try{
     var res = await axios.post(
       `https://localhost:44394/api/authentication`,
-      event);
-    //setRedirect(true);
-  
+      event);  
     return this.setState({
       user: res.data,
     });
+ 
         
   }
   catch(err){
@@ -165,6 +164,32 @@ class App extends Component {
       }
     }
 
+    postDocument = async (event) => {
+      try{
+        const jwt = localStorage.getItem("token");
+          var res = await axios.post(`https://localhost:44394/api/document`, event, {headers: {Authorization: "Bearer " + jwt}});
+          this.setState({
+              subcomments: res.data
+          });
+      }
+      catch(err){
+          alert(err);
+      }
+    }  
+
+    postDepartment = async (event) => {
+      try{
+        const jwt = localStorage.getItem("token");
+          var res = await axios.post(`https://localhost:44394/api/department`, event, {headers: {Authorization: "Bearer " + jwt}});
+          this.setState({
+              subcomments: res.data
+          });
+      }
+      catch(err){
+          alert(err);
+      }
+    }  
+
   render() {
     const user = this.state.user;
     const comments = this.state.comments;
@@ -228,13 +253,13 @@ class App extends Component {
 
             <Route
             path="/document"
-            render={(props) => <Document {...props} userId ={this.getUserInfo} />}
+            render={(props) => <Document {...props} userId ={this.getUserInfo} postDocument={this.postDocument}/>}
             Redirect="/"
           />
 
             <Route
             path="/department"
-            render={(props) => <Department {...props} userId ={this.getUserInfo} />}
+            render={(props) => <Department {...props} userId ={this.getUserInfo} postDepartment={this.postDepartment}/>}
             Redirect="/"
           />
             

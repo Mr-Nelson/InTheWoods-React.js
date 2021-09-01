@@ -54,7 +54,7 @@ const Document = (props) => {
                 onChange={handleChange}
                 values={values.documentfile}
               />
-              <label for="floatingPassword">Document Description</label>
+              <label for="floatingPassword">Document File</label>
             </div>
             <div className="form-floating">
             <button className="w-10 btn btn-lg btn-primary" type="submit">
