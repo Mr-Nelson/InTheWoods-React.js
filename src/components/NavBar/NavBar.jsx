@@ -9,7 +9,7 @@ const NavBar = (props) => {
           <ul className="navbar-nav  ">
             <li className="nav-item">
               
-                <Link to="/" className="nav-link active">
+                <Link to="/home" className="nav-link active">
                   Home
                 </Link>
             </li>
@@ -59,6 +59,12 @@ const NavBar = (props) => {
             <li className="nav-item">
               <Link to="/map" className="nav-link active">
                 Map of Events
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link to="/logout" className="nav-link active">
+                Logout
               </Link>
             </li>
 

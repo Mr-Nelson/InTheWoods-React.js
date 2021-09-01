@@ -17,6 +17,7 @@ import SubComment from '../SubComment/subComment';
 import EventCalendar from '../Calendar/eventCalendar';
 import MakeCalendar from '../Calendar/FullCalendar';
 import Department from '../Departments/department';
+import Logout from '../Logout/logout';
 import MapCalendar from '../Map/map';
 import google from "google-maps-react";
 import { Loader } from "@googlemaps/js-api-loader";
@@ -44,18 +45,18 @@ class App extends Component {
     this.getAllComments();
     const additionalOptions = {};
     // [START maps_programmatic_load_promise]
-    const loader = new Loader({
-      apiKey: "AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY",
-      version: "monthly",
-      ...additionalOptions,
-    });
-    loader.load().then(() => {
-      this.map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: 43.30733170190016, lng: -96.4305045435752},
-        zoom: 8,
-        mapId: "INWOOD_IA"
-      });
-    });
+    // const loader = new Loader({
+    //   apiKey: "AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY",
+    //   version: "monthly",
+    //   ...additionalOptions,
+    // });
+    // loader.load().then(() => {
+    //   this.map = new google.maps.Map(document.getElementById("map"), {
+    //     center: { lat: 43.30733170190016, lng: -96.4305045435752},
+    //     zoom: 8,
+    //     mapId: "INWOOD_IA"
+    //   });
+    // });
     // [END maps_programmatic_load_promise]
     // [END maps_programmatic_load]
   }
@@ -184,10 +185,10 @@ class App extends Component {
             }
           }} */}
         {/* /> */}
-          <Route path="/" exact component={Profile}>
-          <Comment  userid={this.getUserInfo} comments={comments} postComment={this.postComment} />
-          <SubComment userid={this.getUserInfo} subcomments={subcomments} postSubComment={this.postSubComment} />
-          </Route>
+          <Route path="/home" 
+          render={(props) => <Comment  {...props} userUserInfo={this.getUserInfo} comments={comments} postComment={this.postComment} />}
+          // render={(props) => <SubComment {...props} userUserInfo={this.getUserInfo} subcomments={subcomments} postSubComment={this.postSubComment} />}
+          />
 
           <Route
             path="/login"
@@ -204,7 +205,7 @@ class App extends Component {
           <Route
             path="/register"
             render={(props) => <Registration {...props} newUser={this.newUser} redirect={<Redirect to="/login"/>} />}
-            Redirect="/"
+            Redirect to="/login"
           />
 
             <Route
@@ -236,6 +237,13 @@ class App extends Component {
             render={(props) => <Department {...props} userId ={this.getUserInfo} />}
             Redirect="/"
           />
+            
+            <Route
+            path="/logout"
+            render={(props) => <Logout {...props} userId ={this.getUserInfo} />}
+            Redirect="/"
+          />
+          
           <Redirect to="not-found" />
         </Switch>
         <Footer />

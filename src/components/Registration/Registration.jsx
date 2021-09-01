@@ -9,7 +9,7 @@ const Register = (props) => {
   const [ redirect, setRedirect] = useState(false);
   function create() {
     props.newUser(values);
-    setRedirect(true);
+    <Redirect to= '/login' />;
   }
 
   const options = [
@@ -24,7 +24,7 @@ const Register = (props) => {
           <h1>PKCJJ Card Shop Register</h1>
         </div>
 
-        <form className="col-md-2" onSubmit={handleSubmit}>
+        <form className="col-md-2" onSubmit={handleSubmit} >
           <h1 className="h3 mb-3 fw-normal">Please Register</h1>
 
           <div className="form-floating">

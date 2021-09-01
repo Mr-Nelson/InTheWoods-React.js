@@ -8,8 +8,9 @@ const Login = (props) => {
   const{values, handleChange, handleSubmit} = useForm(loginUser);
   function loginUser() {
     props.getUser(values);
-    console.log(values);
+    <Redirect to= '/home' />
   }
+  
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit} className="col-md-2">

@@ -46,6 +46,17 @@ const Document = (props) => {
               <label for="floatingPassword">Document Description</label>
             </div>
             <div className="form-floating">
+              <input
+                name="DocumentFile"
+                type="link"
+                className="form-control"
+                placeholder=".pdf"
+                onChange={handleChange}
+                values={values.documentfile}
+              />
+              <label for="floatingPassword">Document Description</label>
+            </div>
+            <div className="form-floating">
             <button className="w-10 btn btn-lg btn-primary" type="submit">
               REGISTER
             </button>
