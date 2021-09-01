@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import axios from 'axios';
 import {BrowserRouter as Router, Redirect, Route, Switch, usehistory} from "react-router-dom";
 import jwtDecode, {InvalidTokenError} from "jwt-decode";
@@ -36,6 +36,9 @@ function App () {
     }
       catch (ex)
       {console.log(ex)};
+  },[user == null || user != null])
+
+
     // const additionalOptions = {};
     // [START maps_programmatic_load_promise]
     // const loader = new Loader({
@@ -52,20 +55,6 @@ function App () {
     // });
     // [END maps_programmatic_load_promise]
     // [END maps_programmatic_load]
-  }, [user])
-  
-  const newUser = async (event) => {
-    console.log(event)
-    try{
-    var res = await axios.post(
-      `https://localhost:44394/api/authentication`,
-      event);  
-    return setUser(res);
-  }
-  catch(err){
-    alert(err);
-  }
-  };
 
   const getUser = async (event) =>{    
     var res = await axios.post(
@@ -85,81 +74,6 @@ function App () {
       `https://localhost:44394/api/user`, {headers: {Authorization: 'Bearer ' + jwt}});
       setUser(res);
   }
-
-  // postEvent = async (event) => {
-  //   try{
-  //     const jwt = localStorage.getItem("token");
-  //       var res = await axios.post(`https://localhost:44394/api/event`, event, {headers: {Authorization: "Bearer " + jwt}});
-  //       this.setState({
-  //           event: res.data
-  //       });
-  //   }
-  //   catch(err){
-  //       alert(err);
-  //   }
-  // }
-
-  
-
-  
-
-  // postSubComment = async (event) => {
-  //   try{
-  //     const jwt = localStorage.getItem("token");
-  //       var res = await axios.post(`https://localhost:44394/api/subcomment`, event, {headers: {Authorization: "Bearer " + jwt}});
-  //       this.setState({
-  //           subcomments: res.data
-  //       });
-  //   }
-  //   catch(err){
-  //       alert(err);
-  //   }
-  // }  
-  
-  // getAllSubComments = async (event) => {
-  //     try{
-  //       const res = await axios.get(`https://localhost:44394/api/subcomment/${event}`)
-  //       this.setState({
-  //         subcomments: res.data
-  //       })
-  //       console.log(this.subcomments)
-  //     }
-  //     catch(err){
-  //       alert(err);
-  //     }
-  //   }
-
-  //   postDocument = async (event) => {
-  //     try{
-  //       const jwt = localStorage.getItem("token");
-  //         var res = await axios.post(`https://localhost:44394/api/document`, event, {headers: {Authorization: "Bearer " + jwt}});
-  //         this.setState({
-  //             subcomments: res.data
-  //         });
-  //     }
-  //     catch(err){
-  //         alert(err);
-  //     }
-  //   }  
-
-  //   postDepartment = async (event) => {
-  //     try{
-  //       const jwt = localStorage.getItem("token");
-  //         var res = await axios.post(`https://localhost:44394/api/department`, event, {headers: {Authorization: "Bearer " + jwt}});
-  //         this.setState({
-  //             subcomments: res.data
-  //         });
-  //     }
-  //     catch(err){
-  //         alert(err);
-  //     }
-  //   }  
-
-  // render() {
-  //   const user = this.state.user;
-  //   const comments = this.state.comments;
-  //   const subcomments = this.state.subcomments;
-  //   const map = this.state.map;
 
     return (
       <React.Fragment>
@@ -194,7 +108,7 @@ function App () {
 
           <Route
             path="/register"
-            render={(props) => <Registration {...props} newUser={newUser} redirect={<Redirect to="/login"/>} />}
+            render={(props) => <Registration {...props} redirect={<Redirect to="/login"/>} />}
             Redirect to="/login"
           />
 

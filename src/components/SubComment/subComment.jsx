@@ -1,3 +1,9 @@
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import useForm from '../UseForm/useForm'
+import axios from 'axios';
+
 const Comment = (props) => {
     const [subComment, setSubComment] = useState();
     const {values, handleChange, handleSubmit} = useForm(create);
@@ -5,17 +11,6 @@ const Comment = (props) => {
         postSubComment(values);
         cancelCourse();
     }
-
-    useEffect ( async () => {
-            try{
-              const res = await axios.get(`https://localhost:44394/api/subcomment`)
-              setSubComment(res);
-            }
-            catch(err){
-              alert(err);
-            }
-        }, [subComment]
-    )
     
     const postSubComment = async (event) => {
         try{
@@ -56,7 +51,7 @@ const Comment = (props) => {
                                         placeholder="CommentHere"
                                         required="true"
                                         onChange={handleChange}
-                                        values={values.userSubComment, comment.id}
+                                        values={values.userSubComment}//, comment.id}
                                     />
                                     <label for="floatingInput">User SubComment </label>
                                 </div>

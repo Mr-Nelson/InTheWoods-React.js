@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import useForm from "../UseForm/useForm";
 import Select from "react-select";
+import axios from "axios";
 
 
 const Register = (props) => {
@@ -13,6 +14,19 @@ const Register = (props) => {
     <Redirect to= '/login'/>;
     cancelCourse();
   }
+
+  const newUser = async (event) => {
+    console.log(event)
+    try{
+    var res = await axios.post(
+      `https://localhost:44394/api/authentication`,
+      event);  
+    }
+    catch(err){
+      alert(err);
+    }
+  };
+
   const cancelCourse = () => {
     document.getElementById("create-course-form").reset();
   }

@@ -9,7 +9,7 @@ const Document = (props) => {
     const { values, handleChange, handleSubmit } = useForm(create);
     const [ redirect, setRedirect] = useState(false);
     function create() {
-      props.postDocument(values);
+      postDocument(values);
       setRedirect(true);
       cancelCourse();
     }

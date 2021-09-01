@@ -1,13 +1,28 @@
 import React from 'react'
+import { useState } from 'react';
 import useForm from '../UseForm/useForm';
+import axios from 'axios';
 
 
 const EventCalendar = (props) => {
+    const {event, setEvent} = useState();
     const{values, handleChange, handleSubmit} = useForm(logEvent);
     function logEvent() {
-        props.postEvent(values);
+        postEvent(values);
         cancelCourse();
       }
+
+      const postEvent = async (event) => {
+        try{
+          const jwt = localStorage.getItem("token");
+            var res = await axios.post(`https://localhost:44394/api/event`, event, {headers: {Authorization: "Bearer " + jwt}});
+            setEvent(res);
+        }
+        catch(err){
+            alert(err);
+        }
+      }
+
       const cancelCourse = () => {
         document.getElementById("create-course-form").reset();
       }

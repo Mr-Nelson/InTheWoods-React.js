@@ -8,15 +8,21 @@ import axios from 'axios';
 
 const Comment = (props) => {
     const [comment, setComment] = useState();
+    const [subComment, setSubComment] = useState();
     const {values, handleChange, handleSubmit} = useForm(create);
     function create () {
-        postComment(values);
+        if(values.userComment != null) {
+            postComment(values);
+        }
+        else {
+            postSubComment(values);
+        }
         cancelCourse();
     }
 
-    useEffect ( async () => {
+    useEffect (() => {
             try{
-              const res = await axios.get(`https://localhost:44394/api/comment`)
+              const res = axios.get(`https://localhost:44394/api/comment`)
               setComment(res);
             }
             catch(err){
@@ -29,7 +35,7 @@ const Comment = (props) => {
         try{
           const jwt = localStorage.getItem("token");
             var res = await axios.post(`https://localhost:44394/api/comment`, event, {headers: {Authorization: "Bearer " + jwt}});
-            setComment(res)
+            setComment(comment + res)
         }
         catch(err){
             alert(err);
@@ -64,6 +70,17 @@ const Comment = (props) => {
       document.getElementById("create-course-form").reset();
     }
     
+    const postSubComment = async (event) => {
+    try{
+      const jwt = localStorage.getItem("token");
+        var res = await axios.post(`https://localhost:44394/api/subcomment`, event, {headers: {Authorization: "Bearer " + jwt}});
+      setSubComment(res);
+    }
+    catch(err){
+        alert(err);
+    }
+  }  
+  
 
     return (
         <React.Fragment>
@@ -96,7 +113,8 @@ const Comment = (props) => {
                             </td>
                         </div>
                         <div className="feed" align="center">
-                            {MapComponent(comment.id, comment.userComment)}  
+                            {MapComponent//(comment.id, comment.userComment)
+                            }  
                         </div>
                 </tbody>
             </div>

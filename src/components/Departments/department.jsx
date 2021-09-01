@@ -2,14 +2,28 @@ import React from 'react';
 import {useState} from "react";
 import useForm from '../UseForm/useForm';
 import axios from 'axios';
+import userEvent from '@testing-library/user-event';
 
 const Department = (props) => {
+    const {department, setDepartment} = useState();
     const { values, handleChange, handleSubmit } = useForm(create);
     const [ redirect, setRedirect] = useState(false);
     function create() {
-      props.postDepartment(values);
+      postDepartment(values);
       cancelCourse();
     }
+
+    const postDepartment = async (event) => {
+      try{
+        const jwt = localStorage.getItem("token");
+          var res = await axios.post(`https://localhost:44394/api/department`, event, {headers: {Authorization: "Bearer " + jwt}});
+          setDepartment(res);
+      }
+      catch(err){
+          alert(err);
+      }
+    }  
+
     const cancelCourse = () => {
       document.getElementById("create-course-form").reset();
     }
