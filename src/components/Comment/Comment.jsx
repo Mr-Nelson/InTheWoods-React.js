@@ -1,14 +1,65 @@
 import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import useForm from '../UseForm/useForm'
 import './comment.css';
+import axios from 'axios';
 
 
 const Comment = (props) => {
+    const [comment, setComment] = useState();
     const {values, handleChange, handleSubmit} = useForm(create);
     function create () {
-        props.postComment(values);
+        postComment(values);
         cancelCourse();
     }
+
+    useEffect ( async () => {
+            try{
+              const res = await axios.get(`https://localhost:44394/api/comment`)
+              setComment(res);
+            }
+            catch(err){
+              alert(err);
+            }
+        }, [comment]
+    )
+    
+    const postComment = async (event) => {
+        try{
+          const jwt = localStorage.getItem("token");
+            var res = await axios.post(`https://localhost:44394/api/comment`, event, {headers: {Authorization: "Bearer " + jwt}});
+            setComment(res)
+        }
+        catch(err){
+            alert(err);
+        }
+      }
+
+    const getSubComment = async (event) => {
+        try{
+          const res = await axios.get(`https://localhost:44394/api/subcomment/${event}`)
+          setSubComment(res);
+        }
+        catch(err){
+          alert(err);
+        }
+    }
+    
+    function MapComponent(){
+        const [myMap, setMyMap] = useState(new Map());
+        const updateMap = (k,v) => {
+          setMyMap(new Map(myMap.set(k,v)));
+        }
+        return(
+          <ul>
+            {[...myMap.keys()].map(k => (
+              <li key={k}>myMap.get(k)</li>
+            ))}
+          </ul>
+        );
+      }
+      
     const cancelCourse = () => {
       document.getElementById("create-course-form").reset();
     }
@@ -45,16 +96,7 @@ const Comment = (props) => {
                             </td>
                         </div>
                         <div className="feed" align="center">
-                            {props.comments.map((comment, id) => {
-                                <div key={id} value={comment} />
-                                return (
-                                    <tr className="table-row" key= {id}>
-                                        <span>
-                                            <td>{comment.userComment}</td>
-                                        </span>
-                                    </tr>    
-                                )                   
-                            })}  
+                            {MapComponent(comment.id, comment.userComment)}  
                         </div>
                 </tbody>
             </div>

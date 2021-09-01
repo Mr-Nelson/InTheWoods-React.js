@@ -5,6 +5,7 @@ import axios from 'axios';
 
 
 const Document = (props) => {
+    const {document, setDocument} = useState();
     const { values, handleChange, handleSubmit } = useForm(create);
     const [ redirect, setRedirect] = useState(false);
     function create() {
@@ -12,6 +13,18 @@ const Document = (props) => {
       setRedirect(true);
       cancelCourse();
     }
+
+    const postDocument = async (event) => {
+      try{
+        const jwt = localStorage.getItem("token");
+          var res = await axios.post(`https://localhost:44394/api/document`, event, {headers: {Authorization: "Bearer " + jwt}});
+          setDocument(res);
+      }
+      catch(err){
+          alert(err);
+      }
+    }  
+
     const cancelCourse = () => {
       document.getElementById("create-course-form").reset();
     }

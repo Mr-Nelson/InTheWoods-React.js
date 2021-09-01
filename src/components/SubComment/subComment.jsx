@@ -1,13 +1,38 @@
-import React from 'react';
-import useForm from '../UseForm/useForm'
-
-
-const SubComment = (props) => {
+const Comment = (props) => {
+    const [subComment, setSubComment] = useState();
     const {values, handleChange, handleSubmit} = useForm(create);
     function create () {
-        props.postSubComment(values);
-        console.log(values)
+        postSubComment(values);
         cancelCourse();
+    }
+
+    useEffect ( async () => {
+            try{
+              const res = await axios.get(`https://localhost:44394/api/subcomment`)
+              setSubComment(res);
+            }
+            catch(err){
+              alert(err);
+            }
+        }, [subComment]
+    )
+    
+    const postSubComment = async (event) => {
+        try{
+          const jwt = localStorage.getItem("token");
+            var res = await axios.post(`https://localhost:44394/api/subcomment`, event, {headers: {Authorization: "Bearer " + jwt}});
+            setSubComment(res)
+        }
+        catch(err){
+            alert(err);
+        }
+      }
+    
+    const MapStateComment = () => {
+        const [mapState, setMapState] = useState(new Map());
+        const updateMap = (key, value) => {
+            setMapState(map => new Map(map.set( key, value)));
+        }
     }
     const cancelCourse = () => {
       document.getElementById("create-course-form").reset();
@@ -25,13 +50,13 @@ const SubComment = (props) => {
                                 <h4 className="h3 mb-3 fw-normal">Leave a SubComment!</h4>
                                 <div className="form-floating">
                                     <input
-                                        name="UserSubComment"
+                                        name="UserComment"
                                         type="string"
                                         className="form-control"
                                         placeholder="CommentHere"
                                         required="true"
                                         onChange={handleChange}
-                                        values={values.userSubComment}
+                                        values={values.userSubComment, comment.id}
                                     />
                                     <label for="floatingInput">User SubComment </label>
                                 </div>
@@ -43,22 +68,13 @@ const SubComment = (props) => {
                             </form>
                             </td>
                         </div>
-                        {/* <div className="feed" align="center">
-                            {props.subComments.map((subcomment, id) => {
-                                <div key={id} value={subcomment} />
-                                return (
-                                    <tr className="table-row" key= {id}>
-                                        <span>
-                                            <td>{subcomment.userSubComment}</td>
-                                        </span>
-                                    </tr>    
-                                )                   
-                            })}  
-                        </div> */}
+                        <div className="feed" align="center">
+                            {MapStateComment(subComment.id, subComment.userSubComment)}  
+                        </div>
                 </tbody>
             </div>
         </React.Fragment>
     )
 }
 
-export default SubComment;
+export default Comment;

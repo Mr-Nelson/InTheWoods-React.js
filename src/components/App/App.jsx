@@ -21,29 +21,22 @@ import Logout from '../Logout/logout';
 import MapCalendar from '../Map/map';
 import google from "google-maps-react";
 import { Loader } from "@googlemaps/js-api-loader";
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 
-class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      user: "",
-      comments: [],
-      subcomments: [],
-      events: [],
-      map: []
-    };
-  }
-  componentDidMount() {
+function App () {
+  const [user, setUser] = useState()
+
+  useEffect (() => {
     const jwt = localStorage.getItem("token");
     try {
       const user = jwtDecode(jwt);
-      this.setState({user});
+      setUser(user);
     }
       catch (ex)
       {console.log(ex)};
-    this.getAllComments();
-    const additionalOptions = {};
+    // const additionalOptions = {};
     // [START maps_programmatic_load_promise]
     // const loader = new Loader({
     //   apiKey: "AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY",
@@ -59,142 +52,114 @@ class App extends Component {
     // });
     // [END maps_programmatic_load_promise]
     // [END maps_programmatic_load]
-  }
+  }, [user])
   
-  newUser = async (event) => {
+  const newUser = async (event) => {
     console.log(event)
     try{
     var res = await axios.post(
       `https://localhost:44394/api/authentication`,
       event);  
-    return this.setState({
-      user: res.data,
-    });
- 
-        
+    return setUser(res);
   }
   catch(err){
     alert(err);
   }
   };
 
-  getUser = async (event) =>{    
+  const getUser = async (event) =>{    
     var res = await axios.post(
       `https://localhost:44394/api/authentication/login`, event
     );
     let token = res.data.token;
     localStorage.setItem('token', token);
     console.log(res.data.token);
-    this.getUserInfo();     
-  this.setState({
-    user:res.data
-  }); console.log(res.data)}
+    getUserInfo();     
+    setUser(user);
+    console.log(res.data);
+  }
 
-
-  getUserInfo = async (event) => {
+  const getUserInfo = async (event) => {
     const jwt = localStorage.getItem('token');
     var res = await axios.get(
       `https://localhost:44394/api/user`, {headers: {Authorization: 'Bearer ' + jwt}});
-      this.setState({
-        userid: res.data.id
-      })
+      setUser(res);
   }
 
-  postEvent = async (event) => {
-    try{
-      const jwt = localStorage.getItem("token");
-        var res = await axios.post(`https://localhost:44394/api/event`, event, {headers: {Authorization: "Bearer " + jwt}});
-        this.setState({
-            event: res.data
-        });
-    }
-    catch(err){
-        alert(err);
-    }
-  }
+  // postEvent = async (event) => {
+  //   try{
+  //     const jwt = localStorage.getItem("token");
+  //       var res = await axios.post(`https://localhost:44394/api/event`, event, {headers: {Authorization: "Bearer " + jwt}});
+  //       this.setState({
+  //           event: res.data
+  //       });
+  //   }
+  //   catch(err){
+  //       alert(err);
+  //   }
+  // }
 
-  postComment = async (event) => {
-    try{
-      const jwt = localStorage.getItem("token");
-        var res = await axios.post(`https://localhost:44394/api/comment`, event, {headers: {Authorization: "Bearer " + jwt}});
-        this.setState({
-            comments: res.data
-        });
-    }
-    catch(err){
-        alert(err);
-    }
-  }
-
-  getAllComments = async (event) => {
-    try{
-      const res = await axios.get(`https://localhost:44394/api/comment`)
-      this.setState({
-        comments: res.data
-      })
-    }
-    catch(err){
-      alert(err);
-    }
-  }
-
-  postSubComment = async (event) => {
-    try{
-      const jwt = localStorage.getItem("token");
-        var res = await axios.post(`https://localhost:44394/api/subcomment`, event, {headers: {Authorization: "Bearer " + jwt}});
-        this.setState({
-            subcomments: res.data
-        });
-    }
-    catch(err){
-        alert(err);
-    }
-  }  
   
-  getAllSubComments = async (event) => {
-      try{
-        const res = await axios.get(`https://localhost:44394/api/subcomment/${event}`)
-        this.setState({
-          subcomments: res.data
-        })
-        console.log(this.subcomments)
-      }
-      catch(err){
-        alert(err);
-      }
-    }
 
-    postDocument = async (event) => {
-      try{
-        const jwt = localStorage.getItem("token");
-          var res = await axios.post(`https://localhost:44394/api/document`, event, {headers: {Authorization: "Bearer " + jwt}});
-          this.setState({
-              subcomments: res.data
-          });
-      }
-      catch(err){
-          alert(err);
-      }
-    }  
+  
 
-    postDepartment = async (event) => {
-      try{
-        const jwt = localStorage.getItem("token");
-          var res = await axios.post(`https://localhost:44394/api/department`, event, {headers: {Authorization: "Bearer " + jwt}});
-          this.setState({
-              subcomments: res.data
-          });
-      }
-      catch(err){
-          alert(err);
-      }
-    }  
+  // postSubComment = async (event) => {
+  //   try{
+  //     const jwt = localStorage.getItem("token");
+  //       var res = await axios.post(`https://localhost:44394/api/subcomment`, event, {headers: {Authorization: "Bearer " + jwt}});
+  //       this.setState({
+  //           subcomments: res.data
+  //       });
+  //   }
+  //   catch(err){
+  //       alert(err);
+  //   }
+  // }  
+  
+  // getAllSubComments = async (event) => {
+  //     try{
+  //       const res = await axios.get(`https://localhost:44394/api/subcomment/${event}`)
+  //       this.setState({
+  //         subcomments: res.data
+  //       })
+  //       console.log(this.subcomments)
+  //     }
+  //     catch(err){
+  //       alert(err);
+  //     }
+  //   }
 
-  render() {
-    const user = this.state.user;
-    const comments = this.state.comments;
-    const subcomments = this.state.subcomments;
-    const map = this.state.map;
+  //   postDocument = async (event) => {
+  //     try{
+  //       const jwt = localStorage.getItem("token");
+  //         var res = await axios.post(`https://localhost:44394/api/document`, event, {headers: {Authorization: "Bearer " + jwt}});
+  //         this.setState({
+  //             subcomments: res.data
+  //         });
+  //     }
+  //     catch(err){
+  //         alert(err);
+  //     }
+  //   }  
+
+  //   postDepartment = async (event) => {
+  //     try{
+  //       const jwt = localStorage.getItem("token");
+  //         var res = await axios.post(`https://localhost:44394/api/department`, event, {headers: {Authorization: "Bearer " + jwt}});
+  //         this.setState({
+  //             subcomments: res.data
+  //         });
+  //     }
+  //     catch(err){
+  //         alert(err);
+  //     }
+  //   }  
+
+  // render() {
+  //   const user = this.state.user;
+  //   const comments = this.state.comments;
+  //   const subcomments = this.state.subcomments;
+  //   const map = this.state.map;
 
     return (
       <React.Fragment>
@@ -211,61 +176,61 @@ class App extends Component {
           }} */}
         {/* /> */}
           <Route path="/home" 
-          render={(props) => <Comment  {...props} userUserInfo={this.getUserInfo} comments={comments} postComment={this.postComment} />}
+          render={(props) => <Comment  {...props} getUserInfo={getUser} />}
           // render={(props) => <SubComment {...props} userUserInfo={this.getUserInfo} subcomments={subcomments} postSubComment={this.postSubComment} />}
           />
 
           <Route
             path="/login"
-            render={(props) => <Login {...props} getUser={this.getUser}/>}
+            render={(props) => <Login {...props} getUser={getUser}/>}
             Redirect="/"
           />
           
           <Route
             path="/profile"
-            render={(props) => <Profile {...props} getUserInfo={this.getUserInfo}/>}
+            render={(props) => <Profile {...props} getUserInfo={getUserInfo}/>}
             Redirect="/"
           />
 
           <Route
             path="/register"
-            render={(props) => <Registration {...props} newUser={this.newUser} redirect={<Redirect to="/login"/>} />}
+            render={(props) => <Registration {...props} newUser={newUser} redirect={<Redirect to="/login"/>} />}
             Redirect to="/login"
           />
 
             <Route
             path="/event"
-            render={(props) => <EventCalendar {...props} postEvent={this.postEvent} />}
+            render={(props) => <EventCalendar {...props} />}
             Redirect="/"
           />
 
             <Route
             path="/calendar"
-            render={(props) => <MakeCalendar {...props} events={this.events} />}
+            render={(props) => <MakeCalendar {...props} />}
             Redirect="/"
           />
 
             <Route
             path="/map"
-            render={(props) => <MapCalendar {...props} events={this.events} map/>}
+            render={(props) => <MapCalendar {...props} />}
             Redirect="/"
           />
 
             <Route
             path="/document"
-            render={(props) => <Document {...props} userId ={this.getUserInfo} postDocument={this.postDocument}/>}
+            render={(props) => <Document {...props} getUserInfo ={getUserInfo} />}
             Redirect="/"
           />
 
             <Route
             path="/department"
-            render={(props) => <Department {...props} userId ={this.getUserInfo} postDepartment={this.postDepartment}/>}
+            render={(props) => <Department {...props} getUserInfo ={getUserInfo} />}
             Redirect="/"
           />
             
             <Route
             path="/logout"
-            render={(props) => <Logout {...props} userId ={this.getUserInfo} />}
+            render={(props) => <Logout {...props} getUserInfo ={getUserInfo} />}
             Redirect="/"
           />
           
@@ -275,7 +240,7 @@ class App extends Component {
 
       </React.Fragment>
     );
-  }
+  // }
 }
 
 export default App;
