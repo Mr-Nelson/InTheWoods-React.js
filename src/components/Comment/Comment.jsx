@@ -41,7 +41,7 @@ const Comment = (props) => {
         }
       }
     function renderMap() {
-        // if(comment.length > 0) {
+        if(comment.length > 0) {
             return (
                 <ul>
                     {comment.Comments.map(Comments => (
@@ -52,7 +52,7 @@ const Comment = (props) => {
                     ))}
                 </ul>
             )
-        // }
+        }
     }
 
     const cancelCourse = () => {
@@ -80,7 +80,7 @@ const Comment = (props) => {
                                         onChange={handleChange}
                                         values={values.userComment}
                                     />
-                                    <label for="floatingInput">User Comment </label>
+                                    <label for="floatingInput">Comment </label>
                                 </div>
                                 <div className="form-floating" align="right">
                                     <button className="w-10 btn btn-lg btn-primary" type="submit">
@@ -88,10 +88,10 @@ const Comment = (props) => {
                                     </button>
                                 </div>
                             </form>
-                            <div class="d-flex justify-content-center" align="center">
+                            </td>
+                            <div class="map-render" align="center">
                                 {renderMap}
                             </div>
-                            </td>
                         </div>
                     </tbody>
                 </div>

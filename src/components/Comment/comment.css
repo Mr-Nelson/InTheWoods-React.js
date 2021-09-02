@@ -34,6 +34,8 @@
       align-self: right;
   }
 
-  .d-flex {
-      align-self: bottom;
-  }
+.map-render {
+  align-self: center;
+  height: 300px;
+  width: 400px;
+}

@@ -13,7 +13,7 @@ const Profile = (props) => {
 
                 <table className="col-md-2">
 
-                <span className="form-floating">
+                <div className="form-floating">
                     <td
                     name="FirstName"
                     type="string"
@@ -21,7 +21,7 @@ const Profile = (props) => {
                     values={user.firstname}
                     />
                     <label for="floatingInput">First Name</label>
-                </span>
+                </div>
                 <div className="form-floating">
                     <td
                     name="LastName"
