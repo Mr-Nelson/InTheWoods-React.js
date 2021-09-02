@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState} from 'react'
 import useForm from '../UseForm/useForm';
 import axios from 'axios';
 
@@ -83,7 +82,5 @@ const EventCalendar = (props) => {
       </div>
     );
 };
-
-
 
 export default EventCalendar;

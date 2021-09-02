@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import useForm from "../UseForm/useForm";
 import Select from "react-select";
 import axios from "axios";
@@ -9,7 +9,7 @@ const Register = (props) => {
   const { values, handleChange, handleSubmit } = useForm(create);
   const [ redirect, setRedirect] = useState(false);
   function create() {
-    props.newUser(values);
+    newUser(values);
     setRedirect(true);
     <Redirect to= '/login'/>;
     cancelCourse();

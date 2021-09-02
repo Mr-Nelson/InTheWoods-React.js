@@ -1,8 +1,8 @@
-import React from 'react';
-import {useState} from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import useForm from '../UseForm/useForm';
 import axios from 'axios';
 import userEvent from '@testing-library/user-event';
+
 
 const Department = (props) => {
     const {department, setDepartment} = useState();
@@ -105,5 +105,5 @@ const Department = (props) => {
       </div>
     );
   };
-  
+
   export default Department;

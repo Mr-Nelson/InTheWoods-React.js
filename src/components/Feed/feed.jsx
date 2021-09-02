@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import useForm from '../UseForm/useForm';
 
-const Feed = (props) => {
+export const Feed = (props) => {
     const {values, handleChange, handleSubmit} = useForm(create);
     function create () {
         props.getAllComments();
@@ -22,4 +22,3 @@ const Feed = (props) => {
         </div>
     )
 }
-export default Feed;

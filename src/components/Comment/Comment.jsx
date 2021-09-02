@@ -1,36 +1,35 @@
-import React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import React, {useState, createContext, useEffect, useContext} from 'react';
 import useForm from '../UseForm/useForm'
 import './comment.css';
 import axios from 'axios';
+import SubComment from '../SubComment/subComment';
 
 
 const Comment = (props) => {
-    const [comment, setComment] = useState();
-    const [subComment, setSubComment] = useState();
+    const [comment, setComment] = useState({ Comments: [] });
     const {values, handleChange, handleSubmit} = useForm(create);
+
     function create () {
-        if(values.userComment != null) {
-            postComment(values);
-        }
-        else {
-            postSubComment(values);
-        }
+        postComment(values);
         cancelCourse();
+        fetchData();
     }
 
     useEffect (() => {
-            try{
-              const res = axios.get(`https://localhost:44394/api/comment`)
-              setComment(res);
-            }
-            catch(err){
-              alert(err);
-            }
-        }, [comment]
-    )
+        fetchData();    
+        console.log(comment);
+        },[comment.length > 0])
     
+    const fetchData = async () => {
+        try {
+            const res = await axios.get(`https://localhost:44394/api/comment`)
+            setComment(res.data);
+        }
+        catch (err) {
+            alert(err);
+        }
+    }
+        
     const postComment = async (event) => {
         try{
           const jwt = localStorage.getItem("token");
@@ -41,45 +40,24 @@ const Comment = (props) => {
             alert(err);
         }
       }
-
-    const getSubComment = async (event) => {
-        try{
-          const res = await axios.get(`https://localhost:44394/api/subcomment/${event}`)
-          setSubComment(res);
-        }
-        catch(err){
-          alert(err);
-        }
+    function renderMap() {
+        // if(comment.length > 0) {
+            return (
+                <ul>
+                    {comment.Comments.map(Comments => (
+                        <li key={Comments.id}>
+                        <a>{Comments.userComment}</a>
+                        <SubComment {...props}/>
+                        </li>
+                    ))}
+                </ul>
+            )
+        // }
     }
-    
-    function MapComponent(){
-        const [myMap, setMyMap] = useState(new Map());
-        const updateMap = (k,v) => {
-          setMyMap(new Map(myMap.set(k,v)));
-        }
-        return(
-          <ul>
-            {[...myMap.keys()].map(k => (
-              <li key={k}>myMap.get(k)</li>
-            ))}
-          </ul>
-        );
-      }
-      
+
     const cancelCourse = () => {
       document.getElementById("create-course-form").reset();
     }
-    
-    const postSubComment = async (event) => {
-    try{
-      const jwt = localStorage.getItem("token");
-        var res = await axios.post(`https://localhost:44394/api/subcomment`, event, {headers: {Authorization: "Bearer " + jwt}});
-      setSubComment(res);
-    }
-    catch(err){
-        alert(err);
-    }
-  }  
   
 
     return (
@@ -110,14 +88,13 @@ const Comment = (props) => {
                                     </button>
                                 </div>
                             </form>
+                            <div class="d-flex justify-content-center" align="center">
+                                {renderMap}
+                            </div>
                             </td>
                         </div>
-                        <div className="feed" align="center">
-                            {MapComponent//(comment.id, comment.userComment)
-                            }  
-                        </div>
-                </tbody>
-            </div>
+                    </tbody>
+                </div>
         </React.Fragment>
     )
 }

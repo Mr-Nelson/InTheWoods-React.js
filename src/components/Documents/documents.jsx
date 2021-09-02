@@ -1,5 +1,4 @@
-import React from 'react';
-import {useState} from "react";
+import React, { useState, useContext } from 'react';
 import useForm from '../UseForm/useForm';
 import axios from 'axios';
 
@@ -85,5 +84,5 @@ const Document = (props) => {
       </div>
     );
   };
-  
+
   export default Document;

@@ -1,15 +1,31 @@
-import React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import useForm from '../UseForm/useForm'
 import axios from 'axios';
+import { CommentContext } from '../Comment/comment';
 
-const Comment = (props) => {
+
+
+const SubComment = (props) => {
     const [subComment, setSubComment] = useState();
+    const comment = this.props.comment.id;
     const {values, handleChange, handleSubmit} = useForm(create);
     function create () {
         postSubComment(values);
         cancelCourse();
+    }
+
+    useEffect (() => {
+        fetchData();    
+        },[subComment.length > 0])
+    
+    const fetchData = async (comment) => {
+        try {
+            const res = await axios.get(`https://localhost:44394/api/subcomment/${comment}`)
+            setSubComment(res.data);
+        }
+        catch (err) {
+            alert(err);
+        }
     }
     
     const postSubComment = async (event) => {
@@ -22,13 +38,32 @@ const Comment = (props) => {
             alert(err);
         }
       }
-    
-    const MapStateComment = () => {
-        const [mapState, setMapState] = useState(new Map());
-        const updateMap = (key, value) => {
-            setMapState(map => new Map(map.set( key, value)));
+
+    const getSubComment = async (event) => {
+        try{
+          const res = await axios.get(`https://localhost:44394/api/subcomment/${event}`)
+          setSubComment(res);
+        }
+        catch(err){
+          alert(err);
         }
     }
+    
+    function renderMap() {
+        if(comment.length > 0) {
+            return (
+                <ul>
+                    {comment.Comments.map(Comments => (
+                        <li key={Comments.id}>
+                        <a>{Comments.userComment}</a>
+                        <SubComment {...props}/>
+                        </li>
+                    ))}
+                </ul>
+            )
+        }
+    }
+
     const cancelCourse = () => {
       document.getElementById("create-course-form").reset();
     }
@@ -40,6 +75,9 @@ const Comment = (props) => {
                 <div class="d-flex justify-content-center" width="max-width">
                     <tbody>
                         <div class="container">
+                            <div>
+                                {renderMap}
+                            </div>
                             <td className="d-flex justify-content-center">
                             <form id="create-course-form" className="col-md-25" onSubmit={handleSubmit}>
                                 <h4 className="h3 mb-3 fw-normal">Leave a SubComment!</h4>
@@ -51,7 +89,7 @@ const Comment = (props) => {
                                         placeholder="CommentHere"
                                         required="true"
                                         onChange={handleChange}
-                                        values={values.userSubComment}//, comment.id}
+                                        values={values.userSubComment, comment.id}
                                     />
                                     <label for="floatingInput">User SubComment </label>
                                 </div>
@@ -63,13 +101,9 @@ const Comment = (props) => {
                             </form>
                             </td>
                         </div>
-                        <div className="feed" align="center">
-                            {MapStateComment(subComment.id, subComment.userSubComment)}  
-                        </div>
                 </tbody>
             </div>
         </React.Fragment>
     )
 }
-
-export default Comment;
+export default SubComment;

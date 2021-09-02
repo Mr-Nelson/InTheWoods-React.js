@@ -10,4 +10,5 @@ const Logout = (props) => {
         </React.Fragment>
     )
 }
+
 export default Logout;

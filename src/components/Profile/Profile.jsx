@@ -1,15 +1,8 @@
 import React from 'react';
-import useForm from '../UseForm/useForm';
-import { Link, Redirect } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
-import { useRetryHandler } from 'stream-chat-react';
 
 
 const Profile = (props) => {
    const user = props.getUserInfo();
-
-
-    
 
     return (
         <div>
@@ -20,7 +13,7 @@ const Profile = (props) => {
 
                 <table className="col-md-2">
 
-                <div className="form-floating">
+                <span className="form-floating">
                     <td
                     name="FirstName"
                     type="string"
@@ -28,7 +21,7 @@ const Profile = (props) => {
                     values={user.firstname}
                     />
                     <label for="floatingInput">First Name</label>
-                </div>
+                </span>
                 <div className="form-floating">
                     <td
                     name="LastName"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {BrowserRouter as Router, Redirect, Route, Switch, usehistory} from "react-router-dom";
 import jwtDecode, {InvalidTokenError} from "jwt-decode";
@@ -7,7 +7,7 @@ import './app.css';
 import TitleBar from '../TitleBar/titleBar';
 import NavBar from '../NavBar/navBar';
 import Footer from '../Footer/footer';
-import Feed from '../Feed/feed';
+// import Feed from '../Feed/feed';
 import Login from '../Login/login';
 import Profile from '../Profile/profile';
 import Registration from '../Registration/registration';
@@ -19,14 +19,13 @@ import MakeCalendar from '../Calendar/FullCalendar';
 import Department from '../Departments/department';
 import Logout from '../Logout/logout';
 import MapCalendar from '../Map/map';
-import google from "google-maps-react";
-import { Loader } from "@googlemaps/js-api-loader";
-import { useEffect } from 'react';
-import { useState } from 'react';
+// import google from "google-maps-react";
+// import { Loader } from "@googlemaps/js-api-loader";
 
 
 function App () {
-  const [user, setUser] = useState()
+  const [user, setUser] = useState();
+
 
   useEffect (() => {
     const jwt = localStorage.getItem("token");
@@ -36,7 +35,7 @@ function App () {
     }
       catch (ex)
       {console.log(ex)};
-  },[user == null || user != null])
+  },[])
 
 
     // const additionalOptions = {};
@@ -56,7 +55,7 @@ function App () {
     // [END maps_programmatic_load_promise]
     // [END maps_programmatic_load]
 
-  const getUser = async (event) =>{    
+  const getUser = async (event) =>{   
     var res = await axios.post(
       `https://localhost:44394/api/authentication/login`, event
     );
@@ -151,10 +150,8 @@ function App () {
           <Redirect to="not-found" />
         </Switch>
         <Footer />
-
       </React.Fragment>
     );
-  // }
 }
 
 export default App;
