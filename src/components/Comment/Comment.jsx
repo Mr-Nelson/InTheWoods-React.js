@@ -65,7 +65,7 @@ const Comment = (props) => {
             <div class="column" width="100%"></div>
                 <div class="d-flex justify-content-center" width="max-width">
                     <tbody>
-                        <div class="container">
+                        <div class="container" vw="60" vh="100">
                             <tr><td><h1>Into The Woods Q and A</h1></td></tr>
                             <td className="d-flex justify-content-center">
                             <form id="create-course-form" className="col-md-25" onSubmit={handleSubmit}>

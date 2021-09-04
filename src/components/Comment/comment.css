@@ -36,6 +36,5 @@
 
 .map-render {
   align-self: center;
-  height: 300px;
-  width: 400px;
+  viewport-fit: 100;
 }
