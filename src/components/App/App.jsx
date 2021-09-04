@@ -19,14 +19,7 @@ import MakeCalendar from '../Calendar/FullCalendar';
 import Department from '../Departments/department';
 import Logout from '../Logout/logout';
 import Map from '../Map/map';
-import { Wrapper, Status } from "@googlemaps/react-wrapper"
-// import { Loader } from "@googlemaps/js-api-loader";
 
-// const render = (status: Status): ReactElement => {
-//   if (status === Status.LOADING) return <Spinner />;
-//   if (status === Status.FAILURE) return <ErrorComponent />;
-//   return null;
-// };
 
 function App () {
   const [user, setUser] = useState();

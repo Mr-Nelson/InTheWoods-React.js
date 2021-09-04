@@ -34,7 +34,7 @@ const Comment = (props) => {
         try{
           const jwt = localStorage.getItem("token");
             var res = await axios.post(`https://localhost:44394/api/comment`, event, {headers: {Authorization: "Bearer " + jwt}});
-            setComment(comment + res)
+            setComment(fetchData)
         }
         catch(err){
             alert(err);

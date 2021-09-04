@@ -15,7 +15,7 @@ const EventCalendar = (props) => {
         try{
           const jwt = localStorage.getItem("token");
             var res = await axios.post(`https://localhost:44394/api/event`, event, {headers: {Authorization: "Bearer " + jwt}});
-            setEvent(res);
+            return(res);
         }
         catch(err){
             alert(err);

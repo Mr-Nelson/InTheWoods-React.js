@@ -1,35 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
 import './map.css';
-import MapCalendar from './mapCalendar';
-
 
 
 const Map = (props) => {
-    const [map, setMap] = useState();
-    const additionalOptions = [];
+    const [event, setEvent] = useState({Events: []});
+    const [selectedEvent, setSelectedEvent] = useState(null);
+    
     const WrappedMap = withGoogleMap((map) => 
     <GoogleMap
         defaultZoom= {14}
         defaultCenter={{ lat: 43.305112, lng: -96.432149 }}
-        />);
-    // const loader = async () => {
-    //     var loader = await ( new Loader({
-    //     apiKey: "AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY",
-    //     version: "weekly",
-    //     ...additionalOptions,
-    //   }));
-    //   loader.load =  (() => {
-    //       var google = (new google.maps.Map(document.getElementById("Inwood Events"), {
-    //       center: { lat: 43.30733170190016, lng: -96.4305045435752 },
-    //       zoom: 8,
-    //     }));
-    //     setMap(google.data)
-    //   });}
+        >
+         {event.Events.map((event) => {
+             <Marker key={event.id} position={event.address} onClick= {() => {setSelectedEvent(event);}} />
+         })} 
+         {selectedEvent && (
+             <InfoWindow>
+                 <div>event.description</div>
+             </InfoWindow>
+         )}  
+        </GoogleMap>    
+        );
+    useEffect (() => {
+        fetchData();
+    }, [event.length > 0])
+
+    const fetchData = async () => {
+        try{
+            const res = await axios.get(`https://localhost:44394/api/event`)
+            console.log(res)
+            setEvent(res.data)
+        }
+        catch(err) {
+            alert(err)
+        }}  
 
     return (
-        <div style={{width: "100vw", height: "100vw"}}>
+        <div style={{width: "100vw", height: "100vh"}}>
             <div id="Inwood Events" />
             <WrappedMap
                 googleMapURL ={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY`}
