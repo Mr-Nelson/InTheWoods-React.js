@@ -13,9 +13,7 @@ const Map = (props) => {
         defaultZoom= {14}
         defaultCenter={{ lat: 43.305112, lng: -96.432149 }}
         >
-         {event.Events.map((event) => {
-             <Marker key={event.id} position={event.address} onClick= {() => {setSelectedEvent(event);}} />
-         })} 
+         {mapEvents} 
          {selectedEvent && (
              <InfoWindow>
                  <div>event.description</div>
@@ -35,7 +33,15 @@ const Map = (props) => {
         }
         catch(err) {
             alert(err)
-        }}  
+        }}
+        
+    function mapEvents () {
+        if(event.length > 0) {
+            event.Events.map(Events => {
+                <Marker key={Events.id} position={Events.address} onClick= {() => {setSelectedEvent(Events);}} />
+            })
+        }
+    }
 
     return (
         <div style={{width: "100vw", height: "100vh"}}>
