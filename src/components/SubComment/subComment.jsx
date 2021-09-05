@@ -6,8 +6,9 @@ import { CommentContext } from '../Comment/comment';
 
 
 const SubComment = (props) => {
-    const [subComment, setSubComment] = useState();
+    const [subComments, setSubComment] = useState([]);
     const comment = this.props.comment.id;
+    console.log(comment)
     const {values, handleChange, handleSubmit} = useForm(create);
     function create () {
         postSubComment(values);
@@ -16,7 +17,7 @@ const SubComment = (props) => {
 
     useEffect (() => {
         fetchData();    
-        },[subComment.length > 0])
+        },[subComments.length > 0])
     
     const fetchData = async (comment) => {
         try {
@@ -38,31 +39,21 @@ const SubComment = (props) => {
             alert(err);
         }
       }
-
-    const getSubComment = async (event) => {
-        try{
-          const res = await axios.get(`https://localhost:44394/api/subcomment/${event}`)
-          setSubComment(res);
-        }
-        catch(err){
-          alert(err);
-        }
-    }
     
-    function renderMap() {
-        if(comment.length > 0) {
-            return (
-                <ul>
-                    {comment.Comments.map(Comments => (
-                        <li key={Comments.id}>
-                        <a>{Comments.userComment}</a>
-                        <SubComment {...props}/>
-                        </li>
-                    ))}
-                </ul>
-            )
-        }
-    }
+    // function renderMap() {
+    //     if(comment.length > 0) {
+    //         return (
+    //             <ul>
+    //                 {comment.Comments.map(Comments => (
+    //                     <li key={Comments.id}>
+    //                     <a>{Comments.userComment}</a>
+    //                     <SubComment {...props}/>
+    //                     </li>
+    //                 ))}
+    //             </ul>
+    //         )
+    //     }
+    // }
 
     const cancelCourse = () => {
       document.getElementById("create-course-form").reset();
@@ -75,8 +66,14 @@ const SubComment = (props) => {
                 <div class="d-flex justify-content-center" width="max-width">
                     <tbody>
                         <div class="container">
-                            <div>
-                                {renderMap}
+                        <div class="map-render" align="center">
+                            <ul>
+                                {subComments.map(subComment => (
+                                    <li key={subComment.id}>
+                                    <a>{subComment.userSubComment}</a>
+                                    </li>
+                                ))}
+                            </ul>
                             </div>
                             <td className="d-flex justify-content-center">
                             <form id="create-course-form" className="col-md-25" onSubmit={handleSubmit}>

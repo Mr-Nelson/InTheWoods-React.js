@@ -5,13 +5,30 @@ import userEvent from '@testing-library/user-event';
 
 
 const Department = (props) => {
-    const {department, setDepartment} = useState();
+    const [departments, setDepartment] = useState([]);
     const { values, handleChange, handleSubmit } = useForm(create);
     const [ redirect, setRedirect] = useState(false);
+
     function create() {
       postDepartment(values);
       cancelCourse();
     }
+
+    useEffect (() => {
+      fetchData();
+      console.log(departments);
+      },[departments.length > 0])
+  
+  const fetchData = async () => {
+      try {
+          const res = await axios.get(`https://localhost:44394/api/department`)
+          var departments = res.data;
+          setDepartment(departments);
+      }
+      catch (err) {
+          alert(err);
+      }
+  }
 
     const postDepartment = async (event) => {
       try{
@@ -101,6 +118,21 @@ const Department = (props) => {
             </div>
             <p className="mt-5 mb-3 text-muted">© 2021</p>
           </form>
+          <div class="map-render" align="center">
+            <ul>
+                {departments.map(department=> (
+                    <li key={department.id}>
+                    <a>
+                      <div>{department.company}</div>
+                      <div>{department.address}</div>
+                      <div>{department.hours}</div>
+                      <div>{department.managerName}</div>
+                      <div>{department.phoneNumber}</div>
+                      </a>
+                    </li>
+                ))}
+            </ul>
+            </div>
         </div>
       </div>
     );

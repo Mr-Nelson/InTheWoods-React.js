@@ -1,17 +1,35 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import useForm from '../UseForm/useForm';
 import axios from 'axios';
 
 
 const Document = (props) => {
-    const {document, setDocument} = useState();
+    const [documents, setDocument] = useState([]);
     const { values, handleChange, handleSubmit } = useForm(create);
     const [ redirect, setRedirect] = useState(false);
+
     function create() {
       postDocument(values);
       setRedirect(true);
       cancelCourse();
+      fetchData();
     }
+
+    useEffect (() => {
+      fetchData();
+      console.log(documents);
+      },[documents.length > 0])
+  
+  const fetchData = async () => {
+      try {
+          const res = await axios.get(`https://localhost:44394/api/document`)
+          var documents = res.data;
+          setDocument(documents);
+      }
+      catch (err) {
+          alert(err);
+      }
+  }
 
     const postDocument = async (event) => {
       try{
@@ -80,6 +98,18 @@ const Document = (props) => {
             </div>
             <p className="mt-5 mb-3 text-muted">© 2021</p>
           </form>
+          <div class="map-render" align="center">
+            <ul>
+                {documents.map(document => (
+                    <li key={document.id}>
+                    <a>
+                      <div>{document.documentName}</div>
+                      <div>{document.documentDescription}</div>
+                      </a>
+                    </li>
+                ))}
+            </ul>
+            </div>
         </div>
       </div>
     );

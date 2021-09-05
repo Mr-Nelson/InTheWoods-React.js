@@ -6,7 +6,7 @@ import SubComment from '../SubComment/subComment';
 
 
 const Comment = (props) => {
-    const [comment, setComment] = useState({ Comments: [] });
+    const [comments, setComment] = useState([]);
     const {values, handleChange, handleSubmit} = useForm(create);
 
     function create () {
@@ -16,14 +16,15 @@ const Comment = (props) => {
     }
 
     useEffect (() => {
-        fetchData();    
-        console.log(comment);
-        },[comment.length > 0])
+        fetchData();
+        console.log(comments);
+        },[comments.length > 0])
     
     const fetchData = async () => {
         try {
             const res = await axios.get(`https://localhost:44394/api/comment`)
-            setComment(res.data);
+            var comments = res.data;
+            setComment(comments);
         }
         catch (err) {
             alert(err);
@@ -40,20 +41,6 @@ const Comment = (props) => {
             alert(err);
         }
       }
-    function renderMap() {
-        if(comment.length > 0) {
-            return (
-                <ul>
-                    {comment.Comments.map(Comments => (
-                        <li key={Comments.id}>
-                        <a>{Comments.userComment}</a>
-                        <SubComment {...props}/>
-                        </li>
-                    ))}
-                </ul>
-            )
-        }
-    }
 
     const cancelCourse = () => {
       document.getElementById("create-course-form").reset();
@@ -90,7 +77,14 @@ const Comment = (props) => {
                             </form>
                             </td>
                             <div class="map-render" align="center">
-                                {renderMap}
+                            <ul>
+                                {comments.map(comment => (
+                                    <li key={comment.id}>
+                                    <a>{comment.userComment}</a>
+                                    <button className="w-10 btn-md btn-secondary" onClick={(props) =><SubComment {...props}/>} >SubComments</button>
+                                    </li>
+                                ))}
+                            </ul>
                             </div>
                         </div>
                     </tbody>
