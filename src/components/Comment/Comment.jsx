@@ -3,6 +3,20 @@ import useForm from '../UseForm/useForm'
 import './comment.css';
 import axios from 'axios';
 import SubComment from '../SubComment/subComment';
+import { makeStyles } from '@material-ui/core/styles';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import SendIcon from '@material-ui/icons/Send';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import StarBorder from '@material-ui/icons/StarBorder';
+import Divider from '@material-ui/core/Divider';
 
 
 const Comment = (props) => {
@@ -46,6 +60,28 @@ const Comment = (props) => {
       document.getElementById("create-course-form").reset();
     }
   
+    // const useStyles = makeStyles((theme) => ({
+    //     root: {
+    //       width: '100%',
+    //       maxWidth: 600,
+    //       backgroundColor: theme.palette.background.paper,
+    //     },
+    //     nested: {
+    //       paddingLeft: theme.spacing(4),
+    //     },
+    //   }));
+      
+    // function NestedList() {
+    //     const classes = useStyles();
+    //     const [open, setOpen] = React.useState(true);
+      
+    //     const handleClick = () => {
+    //       setOpen(!open);
+    //     };
+    //     return (
+            
+    //     )
+    // }
 
     return (
         <React.Fragment>
@@ -77,14 +113,25 @@ const Comment = (props) => {
                             </form>
                             </td>
                             <div class="map-render" align="center">
-                            <ul>
+                            <List
+                                component="nav"
+                                aria-labelledby="nested-list-subheader"
+                                subheader={
+                                    <ListSubheader component="div" id="nested-list-subheader">
+                                    Nested List Items
+                                    </ListSubheader>
+                                }
+                                >
                                 {comments.map(comment => (
-                                    <li key={comment.id}>
+                                    <ul key={comment.id}>
                                     <a>{comment.userComment}</a>
-                                    <button className="w-10 btn-md btn-secondary" onClick={(props) =><SubComment {...props}/>} >SubComments</button>
-                                    </li>
+                                    <ListItem button onClick={(props) =><SubComment {...props}/>} > <ListItemText primary="Subcomments" />
+                                    </ListItem>
+                                    {/* <button className="w-10 btn-md btn-secondary" onClick={(props) =><SubComment {...props}/>} >SubComments</button> */}
+                                    <Divider variant="inset" component="ul" />
+                                    </ul>
                                 ))}
-                            </ul>
+                            </List>
                             </div>
                         </div>
                     </tbody>

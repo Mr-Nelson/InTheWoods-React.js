@@ -47,13 +47,13 @@ function App () {
     console.log(res.data);
   }
 
-  const getUserInfo = async (event) => {
+  const getUserInfo = async () => {
     const jwt = localStorage.getItem('token');
-    var res = await axios.get(
+    const res = await axios.get(
       `https://localhost:44394/api/user`, {headers: {Authorization: 'Bearer ' + jwt}});
-      setUser(res);
-  }
-
+    var user = res.data;
+    setUser(user);
+}
 
     return (
       <React.Fragment>
@@ -70,7 +70,7 @@ function App () {
           }} */}
         {/* /> */}
           <Route path="/home" 
-          render={(props) => <Comment  {...props} getUserInfo={getUser} />}
+          render={(props) => <Comment  {...props} getUser={getUser} />}
           />
 
           <Route
@@ -81,7 +81,7 @@ function App () {
           
           <Route
             path="/profile"
-            render={(props) => <Profile {...props} getUserInfo={getUserInfo}/>}
+            render={(props) => <Profile {...props} getUser={getUser}/>}
             Redirect="/"
           />
 
@@ -111,19 +111,19 @@ function App () {
 
             <Route
             path="/document"
-            render={(props) => <Document {...props} getUserInfo ={getUserInfo} />}
+            render={(props) => <Document {...props} getUser ={getUser} />}
             Redirect="/"
           />
 
             <Route
             path="/department"
-            render={(props) => <Department {...props} getUserInfo ={getUserInfo} />}
+            render={(props) => <Department {...props} getUser ={getUser} />}
             Redirect="/"
           />
             
             <Route
             path="/logout"
-            render={(props) => <Logout {...props} getUserInfo ={getUserInfo} />}
+            render={(props) => <Logout {...props} getUser ={getUser} />}
             Redirect="/"
           />
           
