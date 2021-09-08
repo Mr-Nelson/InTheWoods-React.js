@@ -47,7 +47,6 @@ const Register = (props) => {
     newUser(values);
     setRedirect(true);
     <Redirect to= '/login'/>;
-    cancelCourse();
   }
 
   const newUser = async (event) => {
@@ -61,11 +60,6 @@ const Register = (props) => {
       alert(err);
     }
   };
-
-  const cancelCourse = () => {
-    document.getElementById("create-course-form").reset();
-  }
-  
 
   const options = [
     {value:"true", label: "admin"},

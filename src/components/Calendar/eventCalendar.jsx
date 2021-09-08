@@ -1,19 +1,11 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import useForm from '../UseForm/useForm';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
 import Divider from '@material-ui/core/Divider';
 import { CssBaseline } from '@material-ui/core';
 import { Avatar } from '@material-ui/core';
@@ -24,6 +16,7 @@ import { Link } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import { Container } from '@material-ui/core';
 import { Button } from '@material-ui/core';
+import DateTimePicker from 'react-datetime-picker';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -65,38 +58,44 @@ const EventCalendar = (props) => {
     });
     const classes = useStyles();
     const{values, handleChange, handleSubmit} = useForm(logEvent);
+
     function logEvent() {
-      setEvent(values)
-      if (events.eventName != "") {
+      setEvent(values);
+      if (values.address != null) {
         latLong(events);
-      };
-      if(events.lat != "") {
-        postEvent(events)
-      };
-      console.log(events);
-      }
-      
-      const latLong = async () => {
-        var response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${events.address}&key=AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY`)
-        console.log(response.data);
-        if(response.status == "OK") {
-        setEvent(prevState => ({
-          ...prevState,
-          lat: response.result[0].geometry.location.lat,
-          long: response.results[0].geometry.location.lng
-        }))};
+    };
+      console.log(events)
       }
 
-      const postEvent = async (event) => {
-        try{
-          const jwt = localStorage.getItem("token");
-            var res = await axios.post(`https://localhost:44394/api/event`, event, {headers: {Authorization: "Bearer " + jwt}});
-            return(res);
-        }
-        catch(err){
-            alert(err);
-        }
+    const latLong = async () => {
+      var response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${events.address}&key=AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY`)
+      var results = (response.data);
+      console.log(results)
+      try {
+      setEvent(prevState => ({
+        ...prevState,
+          lat: results.results[0].geometry.location.lat,
+          long: results.results[0].geometry.location.lng
+      }))
+      if (events.lat != 0) {
+        postEvent(events);
       }
+    }
+      catch (err) {
+        console.log(err);
+      }
+    }
+
+    const postEvent = async (event) => {
+      try{
+        const jwt = localStorage.getItem("token");
+          var res = await axios.post(`https://localhost:44394/api/event`, event, {headers: {Authorization: "Bearer " + jwt}});
+          return(res);
+      }
+      catch(err){
+          alert(err);
+      }
+    }
 
   
     return (
@@ -113,10 +112,11 @@ const EventCalendar = (props) => {
                         <TextField
                         autoComplete="eDate"
                         name="eventDate"
+                        className={classes.textField}
                         variant="outlined"
                         fullWidth
                         id="eventDate"
-                        label="Event Date"
+                        type="datetime-local"
                         onChange={handleChange}
                         values={values.eventDate}
                         autoFocus

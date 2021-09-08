@@ -5,9 +5,11 @@ import FullCalendar, { CalendarApi } from '@fullcalendar/react'; // must go befo
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 
+
 const MakeCalendar = (props) => {
   const [events, setEvent] = useState([]);
-
+  const calendar = new FullCalendar(events);
+  
   useEffect (() => {
     fetchData();
     console.log(events);
@@ -15,37 +17,23 @@ const MakeCalendar = (props) => {
 
 const fetchData = async () => {
     try {
-      const jwt =localStorage.getItem("token");
-      const res = await axios.get(`https://localhost:44394/api/event`,
-   {headers: { Authorization: "Bearer " + jwt }
-      })
-      var events = res.data;
-      setEvent(events);
+      const res = await axios.get(`https://localhost:44394/api/event`);
+      setEvent(res.data);
+      calendar.render();
     }
     catch (err) {
         alert(err);
     }
 }
-   
-    // const calendar = new Calendar (calendarE1, {
-    //     eventSources: [
-    //         res = axios.get(`https://localhost:44394/api/event`),
-    //         props.setState({
-    //             calendar: res.data
-    //         })
-    //     ]
-    // })
-    // CalendarApi.addEventSource(getAllEvents);
 
-    const handleDateClick = (arg) => { // bind with an arrow function
-        alert(arg.dateStr)
+    const handleDateClick = (events) => { // bind with an arrow function
+       alert(events.eventName, events.address)
       }
 
     return (
         <FullCalendar
           plugins={[ dayGridPlugin, interactionPlugin ]}
           dateClick={handleDateClick}
-          eventContent={events}
         />
       )
 }

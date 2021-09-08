@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
 import './map.css';
+import { Tonality } from '@material-ui/icons';
 
 
 const Map = (props) => {
@@ -18,9 +19,13 @@ const Map = (props) => {
             {events.map(event => (
               <Marker
               key={event.eventId}
-              position={event.eventLocation}  
+              position={{
+                  lat: parseFloat(events.lat),
+                  lng: parseFloat(events.long)
+              }}  
               onClick= {() => {setSelectedEvent(event);}} />
             ))};
+            {console.log(events)}
             {selectedEvent && (
                 <InfoWindow
                 position={selectedEvent.eventLocation}
@@ -32,41 +37,17 @@ const Map = (props) => {
         );
     useEffect (() => {
         fetchData();
-        // if (events.length > 0) {
-        //     mapEvents();
-        // }
-        // console.log(eventLocation);
-        // if (eventLocation != null) {
-        //     geocode();
-        // }
-        // console.log(geocode);
     }, [events.length > 0])
 
     const fetchData = async () => {
         try{
             const res = await axios.get(`https://localhost:44394/api/event`)
-            // console.log(res)
+            console.log(res)
             setEvent(res.data)
         }
         catch(err) {
             alert(err)
         }}
-
-    // function mapEvents () {
-    //     const eventLocation = events.map((event)=>
-    //         <ul key={event.eventId}
-    //         value={event.eventLocation}       
-    //         />
-    //     );
-    //     return (
-    //         setEventLocation(eventLocation)
-    //     )
-    // }
-    // function geocode (eventLocation) {
-    //     var res = axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${eventLocation}&key=AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY`) 
-    //     setLatLong(res.data);
-    //     // console.log(latLong);
-    // }
 
     return (
         <div style={{width: "100vw", height: "100vh"}}>

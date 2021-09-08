@@ -5,15 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
 import Divider from '@material-ui/core/Divider';
 import { CssBaseline } from '@material-ui/core';
 import { Avatar } from '@material-ui/core';
@@ -94,7 +86,6 @@ const Document = (props) => {
       }
     }  
     
-    
     return (
           <React.Fragment>
             <Container component="main" maxWidth="xs">
@@ -108,30 +99,30 @@ const Document = (props) => {
                     <Grid item xs={12}>
                         <TextField
                         autoComplete="name"
-                        name="name"
+                        name="documentName"
                         variant="outlined"
                         fullWidth
-                        id="name"
+                        id="documentName"
                         label="Name"
                         onChange={handleChange}
-                        values={values.name}
+                        values={values.documentName}
                         autoFocus
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
                         autoComplete="description"
-                        name="description"
+                        name="documentDescription"
                         variant="outlined"
                         fullWidth
-                        id="description"
+                        id="documentDescription"
                         label="Description"
                         onChange={handleChange}
-                        values={values.description}
+                        values={values.documentDescription}
                         autoFocus
                         />
                     </Grid>
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <TextField
                         autoComplete="file"
                         name="file"
@@ -143,7 +134,7 @@ const Document = (props) => {
                         values={values.file}
                         autoFocus
                         />
-                    </Grid>
+                    </Grid> */}
                     </Grid>
                     <Grid container justifyContent="flex-end">
                     <Button
@@ -170,7 +161,7 @@ const Document = (props) => {
                     }
                     >
                     {documents.map(document => (
-                        <ul key={document.id}>
+                        <ul key={document.documentId}>
                         <ListItem>{document.documentName}</ListItem>
                         <ListItem>{document.documentDescription}</ListItem>
                         <ListItem>{document.file}</ListItem>
