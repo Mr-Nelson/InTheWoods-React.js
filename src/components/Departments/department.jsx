@@ -199,14 +199,11 @@ const Department = (props) => {
                         >
                         {departments.map(department => (
                             <ul key={department.id}>
-                            <ListItem>
-                              {department.company}
-                              {department.address}
-                              {department.hours}
-                              {department.managerName}
-                              {department.phoneNumber}
-                            </ListItem>
-                       
+                            <ListItem>{department.company}</ListItem>
+                            <ListItem>{department.address}</ListItem>
+                            <ListItem>{department.hours}</ListItem>
+                            <ListItem>{department.managerName}</ListItem>
+                            <ListItem>{department.phoneNumber}</ListItem>
                             <Divider variant="inset" component="ul" />
                             </ul>
                         ))}

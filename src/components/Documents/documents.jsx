@@ -176,11 +176,9 @@ const Document = (props) => {
                     >
                     {documents.map(document => (
                         <ul key={document.id}>
-                        <ListItem>
-                          {document.documentName}
-                          {document.documentDescription}
-                          {document.file}
-                        </ListItem>
+                        <ListItem>{document.documentName}</ListItem>
+                        <ListItem>{document.documentDescription}</ListItem>
+                        <ListItem>{document.file}</ListItem>
                         <Divider variant="inset" component="ul" />
                         </ul>
                     ))}

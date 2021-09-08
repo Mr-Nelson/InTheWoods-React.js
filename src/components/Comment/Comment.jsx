@@ -153,7 +153,8 @@ const Comment = (props) => {
                         >
                         {comments.map(comment => (
                             <ul key={comment.id}>
-                            <a>{comment.userComment}</a>
+                            <ListItem>{comment.userComment}</ListItem>
+                            <ListItem>
                             <Button
                             type="submit"
                             halfwidth="true"
@@ -164,6 +165,7 @@ const Comment = (props) => {
                             >
                             SubComments
                             </Button>
+                            </ListItem>
                             <Divider variant="inset" component="ul" />
                             </ul>
                         ))}
