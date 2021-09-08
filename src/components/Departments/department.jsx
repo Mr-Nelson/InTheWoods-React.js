@@ -63,7 +63,6 @@ const Department = (props) => {
 
     function create() {
       postDepartment(values);
-      cancelCourse();
     }
 
     useEffect (() => {
@@ -93,9 +92,6 @@ const Department = (props) => {
       }
     }  
 
-    const cancelCourse = () => {
-      document.getElementById("create-course-form").reset();
-    }
   
     return (
 <React.Fragment>

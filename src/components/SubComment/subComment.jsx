@@ -62,7 +62,6 @@ const SubComment = (props) => {
     const {values, handleChange, handleSubmit} = useForm(create);
     function create () {
         postSubComment(values);
-        cancelCourse();
     }
 
     useEffect (() => {
@@ -89,11 +88,6 @@ const SubComment = (props) => {
             alert(err);
         }
       }
-
-    const cancelCourse = () => {
-      document.getElementById("create-course-form").reset();
-    }
-    
 
     return (
         <React.Fragment>

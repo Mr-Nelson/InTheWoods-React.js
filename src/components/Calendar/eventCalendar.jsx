@@ -69,19 +69,22 @@ const EventCalendar = (props) => {
       setEvent(values)
       if (events.eventName != "") {
         latLong(events);
+      };
+      if(events.lat != "") {
         postEvent(events)
       };
       console.log(events);
-      cancelCourse();
       }
+      
       const latLong = async () => {
-        var res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${events.address}&key=AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY`)
-        console.log(res.data);
+        var response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${events.address}&key=AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY`)
+        console.log(response.data);
+        if(response.status == "OK") {
         setEvent(prevState => ({
           ...prevState,
-          lat: res.data.lat,
-          long: res.data.lng
-        }));
+          lat: response.result[0].geometry.location.lat,
+          long: response.results[0].geometry.location.lng
+        }))};
       }
 
       const postEvent = async (event) => {
@@ -95,10 +98,6 @@ const EventCalendar = (props) => {
         }
       }
 
-      const cancelCourse = () => {
-        document.getElementById("create-course-form").reset();
-      }
-    
   
     return (
       <React.Fragment>

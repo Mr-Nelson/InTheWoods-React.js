@@ -64,7 +64,6 @@ const Document = (props) => {
     function create() {
       postDocument(values);
       setRedirect(true);
-      cancelCourse();
       fetchData();
     }
 
@@ -94,10 +93,6 @@ const Document = (props) => {
           alert(err);
       }
     }  
-
-    const cancelCourse = () => {
-      document.getElementById("create-course-form").reset();
-    }
     
     
     return (

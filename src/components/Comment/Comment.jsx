@@ -68,7 +68,6 @@ const Comment = (props) => {
 
     function create () {
         postComment(values);
-        cancelCourse();
         fetchData();
     }
 
@@ -98,10 +97,6 @@ const Comment = (props) => {
             alert(err);
         }
       }
-
-    const cancelCourse = () => {
-      document.getElementById("create-course-form").reset();
-    }
 
     return (
         <React.Fragment>
