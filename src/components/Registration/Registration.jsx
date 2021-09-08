@@ -17,18 +17,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        In The Woods
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -198,101 +186,7 @@ const Register = (props) => {
                 </Grid>
               </form>
             </div>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
           </Container>
-
-    // <div>
-    //   <div>
-    //     <form id="create-course-form" className="col-md-2" onSubmit={handleSubmit} >
-    //       <h1 className="h3 mb-3 fw-normal">Please Register</h1>
-
-    //       <div className="form-floating">
-    //         <input
-    //           name="FirstName"
-    //           type="string"
-    //           className="form-control"
-    //           placeholder="John"
-    //           required
-    //           onChange={handleChange}
-    //           values={values.firstname}
-    //         />
-    //         <label for="floatingInput">First Name </label>
-    //       </div>
-    //       <div className="form-floating">
-    //         <input
-    //           name="LastName"
-    //           type="string"
-    //           className="form-control"
-    //           placeholder="Doe"
-    //           onChange={handleChange}
-    //           values={values.lastname}
-    //         />
-    //         <label for="floatingPassword">Last Name</label>
-    //       </div>
-    //       <div className="form-floating">
-    //         <input
-    //           name="UserName"
-    //           type="string"
-    //           className="form-control"
-    //           placeholder="John123"
-    //           onChange={handleChange}
-    //           values={values.username}
-    //         />
-    //         <label for="floatingInput">User Name</label>
-    //       </div>
-    //       <div className="form-floating">
-    //         <input
-    //           name="Password"
-    //           type="password"
-    //           className="form-control"
-    //           placeholder="112234344rrttyyuu"
-    //           onChange={handleChange}
-    //           values={values.password}
-    //         />
-    //         <label for="floatingInput">Password</label>
-    //       </div>
-    //       <div className="form-floating">
-    //         <input
-    //           name="Email"
-    //           type="email"
-    //           className="form-control"
-    //           placeholder="name@example.com"
-    //           onChange={handleChange}
-    //           values={values.email}
-    //         />
-    //         <label for="floatingInput">Email address</label>
-    //       </div>
-    //       <div className="form-floating">
-    //         <input
-    //           name="PhoneNumber"
-    //           type="phoneNumber"
-    //           className="form-control"
-    //           placeholder="555-555-5555"
-    //           onChange={handleChange}
-    //           values={values.phonenumber}
-    //         />
-    //         <label for="floatingInput">Phone Number</label>
-    //       </div>
-    //       <div className="form-floating" onChange={handleChange}>
-    //         <Select
-    //           name="identityrole"
-    //           placeholder="select user or admin"
-    //           options = {options}
-    //           values={values.identityrole}
-    //         />
-    //         <label for="floatingInput">Role</label>
-    //       </div>
-    //       <div className="form-floating">
-    //       <button className="w-10 btn btn-lg btn-primary" type="submit">
-    //         REGISTER
-    //       </button>
-    //       </div>
-    //       <p className="mt-5 mb-3 text-muted">© 2021</p>
-    //     </form>
-    //   </div>
-    // </div>
   );
 };
 

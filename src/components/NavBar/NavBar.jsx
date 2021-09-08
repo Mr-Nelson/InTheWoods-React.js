@@ -1,78 +1,69 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import {Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerSubtitle } from '@rmwc/drawer';
+import { List, ListItem, Button } from "@material-ui/core";
+import '@rmwc/drawer/styles';
 
 const NavBar = (props) => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
-          <ul className="navbar-nav  ">
-            <li className="nav-item">
-              
-                <Link to="/home" className="nav-link active">
-                  Home
-                </Link>
-            </li>
 
-            <li className="nav-item">
-              <Link to="/document" className="nav-link active">
-                Documents
-              </Link>
-            </li>
+    <>
+      {/** Make the drawer appear right-to-left */}
+      <Drawer
+        dir='ltr'
+        modal
+        open={open}
+        onClose={() => setOpen(false)}
+      >
+        {/** Set the content back to left-to-right */}
+        <DrawerHeader dir="ltr">
+          <DrawerTitle>In The Woods</DrawerTitle>
+          <DrawerSubtitle>Menu</DrawerSubtitle>
+        </DrawerHeader>
 
-            <li className="nav-item">
-              <Link to="/department" className="nav-link active">
-                Departments
-              </Link>
-            </li>
+        <DrawerContent dir="ltr">
+          <List>
+            <ListItem>
+              <Link to='/home'>Home</Link>
+            </ListItem>
+            <ListItem>
+              <Link to='/register'>Register</Link>
+            </ListItem>
+            <ListItem>
+              <Link to='/login'>Login</Link>
+            </ListItem>
+            <ListItem>
+              <Link to='/profile'>Profile</Link>
+            </ListItem>
+            <ListItem>
+              <Link to='/document'>Documents</Link>
+            </ListItem>
+            <ListItem>
+              <Link to='/department'>Departments</Link>
+            </ListItem>
+            <ListItem>
+              <Link to='/event'>Events</Link>
+            </ListItem>
+            <ListItem>
+              <Link to='/map'>Event Map</Link>
+            </ListItem>
+            <ListItem>
+              <Link to='/calendar'>Calendar</Link>
+            </ListItem>
+            <ListItem>
+              <Link to='/logout'>Logout</Link>
+            </ListItem>
+          </List>
+        </DrawerContent>
+      </Drawer>
 
-            <li className="nav-item">
-              <Link to="/login" className="nav-link active">
-                Login
-              </Link>
-            </li>
-
-            <li className="nav-item">
-              <Link to="/profile" className="nav-link active">
-                Profile
-              </Link>
-            </li>
-
-            <li className="nav-item">
-              <Link to="/register" className="nav-link active">
-                Register
-              </Link>
-            </li>
-
-            <li className="nav-item">
-              <Link to="/event" className="nav-link active">
-                Add Event
-              </Link>
-              </li>
-
-              <li className="nav-item">
-              <Link to="/calendar" className="nav-link active">
-                Calendar
-              </Link>
-            </li>
-
-            <li className="nav-item">
-              <Link to="/map" className="nav-link active">
-                Map of Events
-              </Link>
-            </li>
-
-            <li className="nav-item">
-              <Link to="/logout" className="nav-link active">
-                Logout
-              </Link>
-            </li>
-
-          </ul>
-        </div>
-      </nav>
-    </div>
+      <Button onClick={() => setOpen(!open)} raised>
+        Navigation
+      </Button>
+    </>
   );
-};
+}
 
 export default NavBar;

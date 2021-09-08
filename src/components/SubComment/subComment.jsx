@@ -2,12 +2,62 @@ import React, { useState, useEffect, useContext } from 'react';
 import useForm from '../UseForm/useForm'
 import axios from 'axios';
 import { CommentContext } from '../Comment/comment';
+import { makeStyles } from '@material-ui/core/styles';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import SendIcon from '@material-ui/icons/Send';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import StarBorder from '@material-ui/icons/StarBorder';
+import Divider from '@material-ui/core/Divider';
+import { CssBaseline } from '@material-ui/core';
+import { Avatar } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
+import { Link } from '@material-ui/core';
+import { Box } from '@material-ui/core';
+import { Container } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
-
+const useStyles = makeStyles((theme) => ({
+    paper: {
+      marginTop: theme.spacing(8),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    avatar: {
+      margin: theme.spacing(1),
+      backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+      width: '100%', // Fix IE 11 issue.
+      marginTop: theme.spacing(3),
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
+    root: {
+        width: '100%',
+        maxWidth: 600,
+        backgroundColor: theme.palette.background.paper,
+    },
+    nested: {
+        paddingLeft: theme.spacing(4),
+    },
+  }));
 
 const SubComment = (props) => {
     const [subComments, setSubComment] = useState([]);
     const comment = this.props.comment.id;
+    const classes = useStyles();
     console.log(comment)
     const {values, handleChange, handleSubmit} = useForm(create);
     function create () {
@@ -39,21 +89,6 @@ const SubComment = (props) => {
             alert(err);
         }
       }
-    
-    // function renderMap() {
-    //     if(comment.length > 0) {
-    //         return (
-    //             <ul>
-    //                 {comment.Comments.map(Comments => (
-    //                     <li key={Comments.id}>
-    //                     <a>{Comments.userComment}</a>
-    //                     <SubComment {...props}/>
-    //                     </li>
-    //                 ))}
-    //             </ul>
-    //         )
-    //     }
-    // }
 
     const cancelCourse = () => {
       document.getElementById("create-course-form").reset();
@@ -62,44 +97,55 @@ const SubComment = (props) => {
 
     return (
         <React.Fragment>
-            <div class="column" width="100%"></div>
-                <div class="d-flex justify-content-center" width="max-width">
-                    <tbody>
-                        <div class="container">
-                        <div class="map-render" align="center">
-                            <ul>
-                                {subComments.map(subComment => (
-                                    <li key={subComment.id}>
-                                    <a>{subComment.userSubComment}</a>
-                                    </li>
-                                ))}
-                            </ul>
-                            </div>
-                            <td className="d-flex justify-content-center">
-                            <form id="create-course-form" className="col-md-25" onSubmit={handleSubmit}>
-                                <h4 className="h3 mb-3 fw-normal">Leave a SubComment!</h4>
-                                <div className="form-floating">
-                                    <input
-                                        name="UserComment"
-                                        type="string"
-                                        className="form-control"
-                                        placeholder="CommentHere"
-                                        required="true"
-                                        onChange={handleChange}
-                                        values={values.userSubComment, comment.id}
+            <Container>
+                <List
+                    component="nav"
+                    aria-labelledby="nested-list-subheader"
+                    >
+                    {subComments.map(subComment => (
+                        <ul key={subComment.id}>
+                        <a>{subComment.userSubComment}</a>
+                        <Container component="main" maxWidth="xs">
+                            <CssBaseline />
+                            <div className={classes.paper}>
+                            <Typography component="h1" variant="h5">
+                                SubComment
+                            </Typography>
+                            <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                                <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <TextField
+                                    autoComplete="usubcomment"
+                                    name="userSubComment"
+                                    variant="outlined"
+                                    fullWidth
+                                    id="userSubComment"
+                                    label="SubComment"
+                                    onChange={handleChange}
+                                    values={values.userSubComment}
+                                    autoFocus
                                     />
-                                    <label for="floatingInput">User SubComment </label>
-                                </div>
-                                <div className="form-floating" align="right">
-                                    <button className="w-10 btn btn-lg btn-primary" type="submit">
-                                    Submit
-                                    </button>
-                                </div>
+                                </Grid>
+                                </Grid>
+                                <Grid container justifyContent="flex-end">
+                                <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            >
+                            Submit
+                            </Button>
+                                </Grid>
                             </form>
-                            </td>
-                        </div>
-                </tbody>
-            </div>
+                            </div>
+                        </Container>
+                        <Divider variant="inset" component="ul" />
+                        </ul>
+                    ))}
+                </List>
+            </Container>
         </React.Fragment>
     )
 }

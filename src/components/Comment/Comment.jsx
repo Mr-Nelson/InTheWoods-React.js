@@ -17,10 +17,53 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import Divider from '@material-ui/core/Divider';
+import { CssBaseline } from '@material-ui/core';
+import { Avatar } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
+import { Link } from '@material-ui/core';
+import { Box } from '@material-ui/core';
+import { Container } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
+  
+  const useStyles = makeStyles((theme) => ({
+    paper: {
+      marginTop: theme.spacing(8),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    avatar: {
+      margin: theme.spacing(1),
+      backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+      width: '100%', // Fix IE 11 issue.
+      marginTop: theme.spacing(3),
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
+    root: {
+        width: '100%',
+        maxWidth: 600,
+        backgroundColor: theme.palette.background.paper,
+    },
+    nested: {
+        paddingLeft: theme.spacing(4),
+    },
+  }));
 
 const Comment = (props) => {
     const [comments, setComment] = useState([]);
+    const classes = useStyles();
+    const [open, setOpen] = useState(true);
+      
+        const handleClick = () => {
+          setOpen(!open);
+        };
     const {values, handleChange, handleSubmit} = useForm(create);
 
     function create () {
@@ -59,83 +102,73 @@ const Comment = (props) => {
     const cancelCourse = () => {
       document.getElementById("create-course-form").reset();
     }
-  
-    // const useStyles = makeStyles((theme) => ({
-    //     root: {
-    //       width: '100%',
-    //       maxWidth: 600,
-    //       backgroundColor: theme.palette.background.paper,
-    //     },
-    //     nested: {
-    //       paddingLeft: theme.spacing(4),
-    //     },
-    //   }));
-      
-    // function NestedList() {
-    //     const classes = useStyles();
-    //     const [open, setOpen] = React.useState(true);
-      
-    //     const handleClick = () => {
-    //       setOpen(!open);
-    //     };
-    //     return (
-            
-    //     )
-    // }
 
     return (
         <React.Fragment>
-            <div class="column" width="100%"></div>
-                <div class="d-flex justify-content-center" width="max-width">
-                    <tbody>
-                        <div class="container" vw="60" vh="100">
-                            <tr><td><h1>Into The Woods Q and A</h1></td></tr>
-                            <td className="d-flex justify-content-center">
-                            <form id="create-course-form" className="col-md-25" onSubmit={handleSubmit}>
-                                <h4 className="h3 mb-3 fw-normal">Leave a Comment!</h4>
-                                <div className="form-floating">
-                                    <input
-                                        name="UserComment"
-                                        type="string"
-                                        className="form-control"
-                                        placeholder="CommentHere"
-                                        required="true"
-                                        onChange={handleChange}
-                                        values={values.userComment}
-                                    />
-                                    <label for="floatingInput">Comment </label>
-                                </div>
-                                <div className="form-floating" align="right">
-                                    <button className="w-10 btn btn-lg btn-primary" type="submit">
-                                    Submit
-                                    </button>
-                                </div>
-                            </form>
-                            </td>
-                            <div class="map-render" align="center">
-                            <List
-                                component="nav"
-                                aria-labelledby="nested-list-subheader"
-                                subheader={
-                                    <ListSubheader component="div" id="nested-list-subheader">
-                                    Nested List Items
-                                    </ListSubheader>
-                                }
-                                >
-                                {comments.map(comment => (
-                                    <ul key={comment.id}>
-                                    <a>{comment.userComment}</a>
-                                    <ListItem button onClick={(props) =><SubComment {...props}/>} > <ListItemText primary="Subcomments" />
-                                    </ListItem>
-                                    {/* <button className="w-10 btn-md btn-secondary" onClick={(props) =><SubComment {...props}/>} >SubComments</button> */}
-                                    <Divider variant="inset" component="ul" />
-                                    </ul>
-                                ))}
-                            </List>
-                            </div>
-                        </div>
-                    </tbody>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                <Typography component="h1" variant="h5">
+                    Comment
+                </Typography>
+                <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                    <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <TextField
+                        autoComplete="ucomment"
+                        name="userComment"
+                        variant="outlined"
+                        fullWidth
+                        id="userComment"
+                        label="Comment"
+                        onChange={handleChange}
+                        values={values.userComment}
+                        autoFocus
+                        />
+                    </Grid>
+                    </Grid>
+                    <Grid container justifyContent="flex-end">
+                    <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Submit
+                </Button>
+                    </Grid>
+                </form>
                 </div>
+            </Container>
+            <Container>
+                <List
+                        component="nav"
+                        aria-labelledby="nested-list-subheader"
+                        subheader={
+                            <ListSubheader component="div" id="nested-list-subheader">
+                            Previous Comments
+                            </ListSubheader>
+                        }
+                        >
+                        {comments.map(comment => (
+                            <ul key={comment.id}>
+                            <a>{comment.userComment}</a>
+                            <Button
+                            type="submit"
+                            halfwidth="true"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            // href={<SubComment {...props} />}
+                            >
+                            SubComments
+                            </Button>
+                            <Divider variant="inset" component="ul" />
+                            </ul>
+                        ))}
+                    </List>
+                </Container>
         </React.Fragment>
     )
 }

@@ -2,10 +2,62 @@ import React, { useState, useEffect, useContext } from 'react';
 import useForm from '../UseForm/useForm';
 import axios from 'axios';
 import userEvent from '@testing-library/user-event';
+import { makeStyles } from '@material-ui/core/styles';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import SendIcon from '@material-ui/icons/Send';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import StarBorder from '@material-ui/icons/StarBorder';
+import Divider from '@material-ui/core/Divider';
+import { CssBaseline } from '@material-ui/core';
+import { Avatar } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
+import { Link } from '@material-ui/core';
+import { Box } from '@material-ui/core';
+import { Container } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  root: {
+      width: '100%',
+      maxWidth: 600,
+      backgroundColor: theme.palette.background.paper,
+  },
+  nested: {
+      paddingLeft: theme.spacing(4),
+  },
+}));
 
 const Department = (props) => {
     const [departments, setDepartment] = useState([]);
+    const classes = useStyles();
     const { values, handleChange, handleSubmit } = useForm(create);
     const [ redirect, setRedirect] = useState(false);
 
@@ -46,95 +98,121 @@ const Department = (props) => {
     }
   
     return (
-      <div>
-        <div>
-          <div className="row row-spacer">
-            <h1>Departments</h1>
-          </div>
-  
-          <form id="create-course-form" className="col-md-2" onSubmit={handleSubmit}>
-            <h1 className="h3 mb-3 fw-normal">Please Register</h1>
-  
-            <div className="form-floating">
-              <input
-                name="Company"
-                type="string"
-                className="form-control"
-                placeholder="Inwood City Hall"
-                required
-                onChange={handleChange}
-                values={values.company}
-              />
-              <label for="floatingInput">Company Name </label>
-            </div>
-            <div className="form-floating">
-              <input
-                name="Address"
-                type="string"
-                className="form-control"
-                placeholder="123 Main St, Inwood, IA 51240"
-                onChange={handleChange}
-                values={values.address}
-              />
-              <label for="floatingPassword">Address</label>
-            </div>
-            <div className="form-floating">
-              <input
-                name="Hours"
-                type="string"
-                className="form-control"
-                placeholder="9AM - 4PM"
-                onChange={handleChange}
-                values={values.hours}
-              />
-              <label for="floatingInput">Hours</label>
-            </div>
-            <div className="form-floating">
-              <input
-                name="ManagerName"
-                type="string"
-                className="form-control"
-                placeholder="City Clerk: Jane Doe"
-                onChange={handleChange}
-                values={values.managername}
-              />
-              <label for="floatingInput">Manager Name</label>
-            </div>
-            <div className="form-floating">
-              <input
-                name="PhoneNumber"
-                type="phoneNumber"
-                className="form-control"
-                placeholder="555-555-5555"
-                onChange={handleChange}
-                values={values.phonenumber}
-              />
-              <label for="floatingInput">Phone Number</label>
-            </div>
-            <div className="form-floating">
-            <button className="w-10 btn btn-lg btn-primary" type="submit">
-              REGISTER
-            </button>
-            </div>
-            <p className="mt-5 mb-3 text-muted">© 2021</p>
-          </form>
-          <div class="map-render" align="center">
-            <ul>
-                {departments.map(department=> (
-                    <li key={department.id}>
-                    <a>
-                      <div>{department.company}</div>
-                      <div>{department.address}</div>
-                      <div>{department.hours}</div>
-                      <div>{department.managerName}</div>
-                      <div>{department.phoneNumber}</div>
-                      </a>
-                    </li>
-                ))}
-            </ul>
-            </div>
-        </div>
-      </div>
+<React.Fragment>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                <Typography component="h1" variant="h5">
+                    Department
+                </Typography>
+                <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                    <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <TextField
+                        autoComplete="company"
+                        name="company"
+                        variant="outlined"
+                        fullWidth
+                        id="company"
+                        label="Company"
+                        onChange={handleChange}
+                        values={values.company}
+                        autoFocus
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                        autoComplete="address"
+                        name="address"
+                        variant="outlined"
+                        fullWidth
+                        id="address"
+                        label="Address"
+                        onChange={handleChange}
+                        values={values.address}
+                        autoFocus
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                        autoComplete="hours"
+                        name="hours"
+                        variant="outlined"
+                        fullWidth
+                        id="hours"
+                        label="Hours"
+                        onChange={handleChange}
+                        values={values.hours}
+                        autoFocus
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                        autoComplete="managername"
+                        name="managerName"
+                        variant="outlined"
+                        fullWidth
+                        id="managerName"
+                        label="Manager Name"
+                        onChange={handleChange}
+                        values={values.managername}
+                        autoFocus
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                        autoComplete="phonenumber"
+                        name="phoneNumber"
+                        variant="outlined"
+                        fullWidth
+                        id="phoneNumber"
+                        label="Phone Number"
+                        onChange={handleChange}
+                        values={values.phonenumber}
+                        autoFocus
+                        />
+                    </Grid>
+                    </Grid>
+                    <Grid container justifyContent="flex-end">
+                    <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Submit
+                </Button>
+                    </Grid>
+                </form>
+                </div>
+            </Container>
+            <Container>
+                <List
+                        component="nav"
+                        aria-labelledby="nested-list-subheader"
+                        subheader={
+                            <ListSubheader component="div" id="nested-list-subheader">
+                            Departments
+                            </ListSubheader>
+                        }
+                        >
+                        {departments.map(department => (
+                            <ul key={department.id}>
+                            <ListItem>
+                              {department.company}
+                              {department.address}
+                              {department.hours}
+                              {department.managerName}
+                              {department.phoneNumber}
+                            </ListItem>
+                       
+                            <Divider variant="inset" component="ul" />
+                            </ul>
+                        ))}
+                    </List>
+                </Container>
+        </React.Fragment>
     );
   };
 

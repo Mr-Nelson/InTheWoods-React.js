@@ -23,10 +23,10 @@ const theme = createTheme({
 });
 
 ReactDOM.render(
-  <Router>
-    <ThemeProvider theme={theme}>
-    <App />
-    </ThemeProvider>
-  </Router>,
+  <ThemeProvider theme={theme}>
+    <Router>
+      <App />
+    </Router>
+  </ThemeProvider>,  
   document.getElementById('root')
 );

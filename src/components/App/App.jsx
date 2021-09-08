@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {BrowserRouter as Router, Redirect, Route, Switch, usehistory} from "react-router-dom";
 import jwtDecode, {InvalidTokenError} from "jwt-decode";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 import TitleBar from '../TitleBar/titleBar';
 import NavBar from '../NavBar/navBar';
@@ -19,6 +18,7 @@ import MakeCalendar from '../Calendar/FullCalendar';
 import Department from '../Departments/department';
 import Logout from '../Logout/logout';
 import Map from '../Map/map';
+import { Container } from '@material-ui/core';
 
 
 function App () {
@@ -58,17 +58,9 @@ function App () {
     return (
       <React.Fragment>
         <TitleBar />
-        <NavBar />
         
         <Switch>
-          {/* <route path ='/register' render ={props => {
-            if (!user){
-              return <Redirect to='/login'/>;
-            }else{
-              return <Home{...props} user={user}/>
-            }
-          }} */}
-        {/* /> */}
+
           <Route path="/home" 
           render={(props) => <Comment  {...props} getUser={getUser} />}
           />

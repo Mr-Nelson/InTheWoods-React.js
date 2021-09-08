@@ -5,43 +5,68 @@ import './map.css';
 
 
 const Map = (props) => {
-    const [event, setEvent] = useState({Events: []});
+    const [events, setEvent] = useState([]);
+    const [eventLocation, setEventLocation] = useState(null);
     const [selectedEvent, setSelectedEvent] = useState(null);
+    const [latLong, setLatLong] = useState([]);
     
     const WrappedMap = withGoogleMap((map) => 
     <GoogleMap
         defaultZoom= {14}
         defaultCenter={{ lat: 43.305112, lng: -96.432149 }}
         >
-         {mapEvents} 
-         {selectedEvent && (
-             <InfoWindow>
-                 <div>event.description</div>
-             </InfoWindow>
-         )}  
+            {events.map(event => (
+              <Marker
+              key={event.eventId}
+              position={event.eventLocation}  
+              onClick= {() => {setSelectedEvent(event);}} />
+            ))};
+            {selectedEvent && (
+                <InfoWindow
+                position={selectedEvent.eventLocation}
+                >
+                    <div>event.description</div>
+                </InfoWindow>
+            )}  
         </GoogleMap>    
         );
     useEffect (() => {
         fetchData();
-    }, [event.length > 0])
+        // if (events.length > 0) {
+        //     mapEvents();
+        // }
+        // console.log(eventLocation);
+        // if (eventLocation != null) {
+        //     geocode();
+        // }
+        // console.log(geocode);
+    }, [events.length > 0])
 
     const fetchData = async () => {
         try{
             const res = await axios.get(`https://localhost:44394/api/event`)
-            console.log(res)
+            // console.log(res)
             setEvent(res.data)
         }
         catch(err) {
             alert(err)
         }}
-        
-    function mapEvents () {
-        if(event.length > 0) {
-            event.Events.map(Events => {
-                <Marker key={Events.id} position={Events.address} onClick= {() => {setSelectedEvent(Events);}} />
-            })
-        }
-    }
+
+    // function mapEvents () {
+    //     const eventLocation = events.map((event)=>
+    //         <ul key={event.eventId}
+    //         value={event.eventLocation}       
+    //         />
+    //     );
+    //     return (
+    //         setEventLocation(eventLocation)
+    //     )
+    // }
+    // function geocode (eventLocation) {
+    //     var res = axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${eventLocation}&key=AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY`) 
+    //     setLatLong(res.data);
+    //     // console.log(latLong);
+    // }
 
     return (
         <div style={{width: "100vw", height: "100vh"}}>
