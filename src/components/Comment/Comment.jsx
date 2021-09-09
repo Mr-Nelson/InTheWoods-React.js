@@ -18,6 +18,8 @@ import { Link } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import { Container } from '@material-ui/core';
 import { Button } from '@material-ui/core';
+import { CallMissedOutgoingSharp } from '@material-ui/icons';
+import { render } from '@testing-library/react';
 
   
   const useStyles = makeStyles((theme) => ({
@@ -51,13 +53,8 @@ import { Button } from '@material-ui/core';
 const Comment = (props) => {
     const [comments, setComment] = useState([]);
     const classes = useStyles();
-    const [open, setOpen] = useState(true);
-      
-        const handleClick = () => {
-          setOpen(!open);
-        };
-    const {values, handleChange, handleSubmit} = useForm(create);
 
+    const {values, handleChange, handleSubmit} = useForm(create);
     function create () {
         postComment(values);
         fetchData();
@@ -65,8 +62,7 @@ const Comment = (props) => {
 
     useEffect (() => {
         fetchData();
-        console.log(comments);
-        },[comments.length > 0])
+        },[])
     
     const fetchData = async () => {
         try {
@@ -83,12 +79,18 @@ const Comment = (props) => {
         try{
           const jwt = localStorage.getItem("token");
             var res = await axios.post(`https://localhost:44394/api/comment`, event, {headers: {Authorization: "Bearer " + jwt}});
-            setComment(fetchData)
+            setComment([...comments, (res.data)])
+
         }
-        catch(err){
+      catch(err){
             alert(err);
         }
       }
+
+      // const handleAddComment = (event) => {
+      //   const newComments = [...comments, { event }];
+      //   setComment(newComments);
+      // };
 
     return (
         <React.Fragment>

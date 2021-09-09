@@ -8,7 +8,6 @@ import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClic
 
 const MakeCalendar = (props) => {
   const [events, setEvent] = useState([]);
-  const calendar = new FullCalendar(events);
   
   useEffect (() => {
     fetchData();
@@ -19,22 +18,22 @@ const fetchData = async () => {
     try {
       const res = await axios.get(`https://localhost:44394/api/event`);
       setEvent(res.data);
-      calendar.render();
     }
     catch (err) {
         alert(err);
     }
 }
 
-    const handleDateClick = (events) => { // bind with an arrow function
-       alert(events.eventName, events.address)
+    const handleDateClick = (event) => { // bind with an arrow function
+       alert(event.eventName, event.address)
       }
 
     return (
         <FullCalendar
           plugins={[ dayGridPlugin, interactionPlugin ]}
           dateClick={handleDateClick}
-        />
+          eventContent={events}
+          />
       )
 }
 
