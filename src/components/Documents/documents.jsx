@@ -79,13 +79,14 @@ const Document = (props) => {
       try{
         const jwt = localStorage.getItem("token");
           var res = await axios.post(`https://localhost:44394/api/document`, event, {headers: {Authorization: "Bearer " + jwt}});
-          setDocument(res);
+          setDocument([...documents, (res.data)]);
       }
       catch(err){
           alert(err);
       }
     }  
     
+  
     return (
           <React.Fragment>
             <Container component="main" maxWidth="xs">

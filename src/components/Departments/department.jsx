@@ -77,7 +77,7 @@ const Department = (props) => {
       try{
         const jwt = localStorage.getItem("token");
           var res = await axios.post(`https://localhost:44394/api/department`, event, {headers: {Authorization: "Bearer " + jwt}});
-          setDepartment(res);
+          setDepartment([...departments, (res.data)]);
       }
       catch(err){
           alert(err);

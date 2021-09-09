@@ -74,7 +74,7 @@ const SubComment = (props) => {
         try{
           const jwt = localStorage.getItem("token");
             var res = await axios.post(`https://localhost:44394/api/subcomment`, event, {headers: {Authorization: "Bearer " + jwt}});
-            setSubComment(res)
+            setSubComment([...subComments, (res.data)])
         }
         catch(err){
             alert(err);
