@@ -1,6 +1,5 @@
 import React, {useState, createContext, useEffect, useContext} from 'react';
 import useForm from '../UseForm/useForm'
-import useSubForm from '../UseForm/useSubForm';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
@@ -179,20 +178,6 @@ const Comment = (props) => {
                   <ul key={subComment.commentId} > 
                   <ListItem>{subComment.userComment}</ListItem>
                   <ListItem>{subComment.userSubComment}</ListItem>
-                  {/* <ListItem>
-                    <Container>
-                      <List
-                          component="nav"
-                          aria-labelledby="nested-list-subheader"
-                          >
-                          {subComments.map(subComment => (
-                              <ul key={subComment.commentId}>
-                              <a>{subComment.userSubComment}</a>
-                              <Divider variant="inset" component="ul" />
-                              </ul>))}
-                      </List>
-                    </Container>
-                  </ListItem> */}
                   <ListItem>
                     <Container component="nested" maxWidth="sm">
                       <CssBaseline />

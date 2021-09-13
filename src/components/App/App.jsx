@@ -12,7 +12,6 @@ import Profile from '../Profile/profile';
 import Registration from '../Registration/registration';
 import Document from '../Documents/documents';
 import Comment from '../Comment/comment';
-import SubComment from '../SubComment/subComment';
 import EventCalendar from '../Calendar/eventCalendar';
 import MakeCalendar from '../Calendar/FullCalendar';
 import Department from '../Departments/department';

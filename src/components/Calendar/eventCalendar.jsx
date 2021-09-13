@@ -58,32 +58,27 @@ const EventCalendar = (props) => {
     });
     const classes = useStyles();
     const{values, handleChange, handleSubmit} = useForm(logEvent);
-
-    function logEvent() {
-      setEvent(values);
-      if (values.address != null) {
-        latLong(events);
-    };
-      console.log(events)
+    
+    function logEvent() {;
+      latLong(events);
+      console.log(events);
       }
 
     const latLong = async () => {
+      setEvent (values);
+      if( events.address != "" ) {
       var response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${events.address}&key=AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY`)
       var results = (response.data);
-      console.log(results)
       try {
-      setEvent(prevState => ({
-        ...prevState,
-          lat: results.results[0].geometry.location.lat,
-          long: results.results[0].geometry.location.lng
-      }))
-      if (events.lat != 0) {
-        postEvent(events);
+        setEvent(events.lat=results.results[0].geometry.location.lat,
+          events.long=results.results[0].geometry.location.lng)
       }
-    }
       catch (err) {
         console.log(err);
       }
+      }
+      console.log(events);
+      postEvent(events);
     }
 
     const postEvent = async (event) => {
