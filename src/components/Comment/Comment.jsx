@@ -1,8 +1,7 @@
 import React, {useState, createContext, useEffect, useContext} from 'react';
 import useForm from '../UseForm/useForm'
-import './comment.css';
+import useSubForm from '../UseForm/useSubForm';
 import axios from 'axios';
-import SubComment from '../SubComment/subComment';
 import { makeStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
@@ -18,11 +17,20 @@ import { Link } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import { Container } from '@material-ui/core';
 import { Button } from '@material-ui/core';
-import { CallMissedOutgoingSharp } from '@material-ui/icons';
-import { render } from '@testing-library/react';
+
+
 
   
   const useStyles = makeStyles((theme) => ({
+      root: {
+        width: '100%',
+        maxWidth: '36ch',
+        backgroundColor: theme.palette.background.paper,
+      },
+      inline: {
+        display: 'inline',
+      },
+
     paper: {
       marginTop: theme.spacing(8),
       display: 'flex',
@@ -40,11 +48,6 @@ import { render } from '@testing-library/react';
     submit: {
       margin: theme.spacing(3, 0, 2),
     },
-    root: {
-        width: '100%',
-        maxWidth: 600,
-        backgroundColor: theme.palette.background.paper,
-    },
     nested: {
         paddingLeft: theme.spacing(4),
     },
@@ -52,34 +55,59 @@ import { render } from '@testing-library/react';
 
 const Comment = (props) => {
     const [comments, setComment] = useState([]);
+    const [subComments, setSubComment] = useState([]);
+    const [rerender, setRerender] = useState(false);
+    const [onShow, setOnShow] = useState(false);
     const classes = useStyles();
-
     const {values, handleChange, handleSubmit} = useForm(create);
+    const {subValues, handleSubChange, handleSubSubmit} = useSubForm(subCreate)
+    const ac = new AbortController();
+    
     function create () {
-        postComment(values);
-        fetchData();
+      postComment(values);
+    }
+
+    function subCreate () {
+      postSubComment(values);
     }
 
     useEffect (() => {
         fetchData();
-        },[])
-    
+        fetchSubComments();
+        },[rerender])
+
     const fetchData = async () => {
         try {
             const res = await axios.get(`https://localhost:44394/api/comment`)
-            var comments = res.data;
-            setComment(comments);
+            var newComments = res.data;
+            setComment(newComments);
         }
         catch (err) {
             alert(err);
         }
+  
     }
+
+    async function fetchSubComments() {
+      try {
+        const res = await axios.get(`https://localhost:44394/api/subcomment/`);
+        var subComments = res.data;
+        setSubComment(subComments)
+      }
+      catch (err) {
+        alert(err);
+      }
+      console.log(subComments);
+  }
+  const triggerRerender=()=>{
+    setRerender(!rerender);
+  }
         
     const postComment = async (event) => {
         try{
           const jwt = localStorage.getItem("token");
             var res = await axios.post(`https://localhost:44394/api/comment`, event, {headers: {Authorization: "Bearer " + jwt}});
-            setComment([...comments, (res.data)])
+          triggerRerender()
 
         }
       catch(err){
@@ -87,10 +115,16 @@ const Comment = (props) => {
         }
       }
 
-      // const handleAddComment = (event) => {
-      //   const newComments = [...comments, { event }];
-      //   setComment(newComments);
-      // };
+      const postSubComment = async (event) => {
+        try{
+          const jwt = localStorage.getItem("token");
+            var res = await axios.post(`https://localhost:44394/api/subcomment`, event, {headers: {Authorization: "Bearer " + jwt}});
+            triggerRerender();
+        }
+        catch(err){
+            alert(err);
+        }
+      }
 
     return (
         <React.Fragment>
@@ -131,35 +165,77 @@ const Comment = (props) => {
                 </div>
             </Container>
             <Container>
-                <List
-                        component="nav"
-                        aria-labelledby="nested-list-subheader"
-                        subheader={
-                            <ListSubheader component="div" id="nested-list-subheader">
-                            Previous Comments
-                            </ListSubheader>
-                        }
-                        >
-                        {comments.map(comment => (
-                            <ul key={comment.id}>
-                            <ListItem>{comment.userComment}</ListItem>
-                            <ListItem>
-                            <Button
-                            type="submit"
-                            halfwidth="true"
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                            // href={<SubComment {...props} />}
-                            >
-                            SubComments
-                            </Button>
-                            </ListItem>
-                            <Divider variant="inset" component="ul" />
-                            </ul>
-                        ))}
-                    </List>
-                </Container>
+
+              <List
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+                subheader={
+                    <ListSubheader component="div" id="nested-list-subheader">
+                    Previous comments
+                    </ListSubheader>
+                }>
+                {comments >= [0] && (
+                (subComments.map(subComment => (
+                  <ul key={subComment.commentId} > 
+                  <ListItem>{subComment.userComment}</ListItem>
+                  <ListItem>{subComment.userSubComment}</ListItem>
+                  {/* <ListItem>
+                    <Container>
+                      <List
+                          component="nav"
+                          aria-labelledby="nested-list-subheader"
+                          >
+                          {subComments.map(subComment => (
+                              <ul key={subComment.commentId}>
+                              <a>{subComment.userSubComment}</a>
+                              <Divider variant="inset" component="ul" />
+                              </ul>))}
+                      </List>
+                    </Container>
+                  </ListItem> */}
+                  <ListItem>
+                    <Container component="nested" maxWidth="sm">
+                      <CssBaseline />
+                      <div className={classes.paper}>
+                      <Typography item xs={12} sm={6} component="h1" variant="h8">
+                          SubComment
+                      </Typography>
+                      <form className={classes.form}  noValidate onSubmit={handleSubSubmit}>
+                          <Grid container spacing={0}>
+                          <Grid item xs={12}>
+                              <TextField
+                              autoComplete="usubcomment"
+                              name="userSubComment"
+                              variant="outlined"
+                              fullWidth
+                              id="userSubComment"
+                              label="SubComment"
+                              onChange={handleSubChange}
+                              values={subValues.userSubComment}
+                              autoFocus
+                              />
+                          </Grid>
+                          </Grid>
+                          <Grid container justifyContent="flex-end">
+                          <Button 
+                      type="submit"
+                      halfWidth="true"
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                      >
+                      Submit
+                      </Button>
+                          </Grid>
+                      </form>
+                      </div>
+                    </Container>
+                  </ListItem>
+                  <Divider variant="inset" component="ul" />
+                  </ul>
+                ))))}  
+              </List>
+            </Container>
         </React.Fragment>
     )
 }
