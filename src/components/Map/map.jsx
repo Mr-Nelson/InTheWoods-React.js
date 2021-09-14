@@ -1,17 +1,17 @@
 import React, { Component, useState, useEffect } from 'react';
 import axios from 'axios';
-
-//import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
-import {Map,GoogleApiWrapper, Marker} from 'google-maps-react'
+import {Map,GoogleApiWrapper, Marker, InfoWindow} from 'google-maps-react'
 import './map.css';
-import { LinearProgress } from '@material-ui/core';
 
 
 export class MapContainer extends Component {
     constructor(props){
         super(props)
         this.state={
-            events: []
+            events: [],
+            showingInfoWindow: false,
+            activeMarker: {},
+            selectedPlace: {},
         }
     }
 
@@ -33,37 +33,27 @@ export class MapContainer extends Component {
           return <Marker key={eventId} id={occasion.eventName} position={{
             lat: parseFloat(occasion.lat),
             lng: parseFloat(occasion.long)
-         }} 
-         onClick={occasion.eventDate} />
+            }} 
+            onClick={this.onMarkerClick}
+            name={occasion.eventName} />
         });
-        //       {console.log(events)}
-        //       {selectedEvent && (
-        //           <InfoWindow
-        //           position={selectedEvent.eventLocation}
-        //           >
-        //               <div>{selectedEvent.description}</div>
-        //           </InfoWindow>
-            //   )}
     }
-    // const [events, setEvent] = useState([]);
-    // const [selectedEvent, setSelectedEvent] = useState(null);
-    // const [isLoading, setIsLoading] = useState(true);
-    
-    // const WrappedMap = withGoogleMap((map) => 
-    // <GoogleMap
-    //     defaultZoom= {14}
-    //     defaultCenter={{ lat: 43.305112, lng: -96.432149 }}
-    //     >
-    //         {events.map(event => (
-    //           <Marker
-    //           key={event.eventId}
-    //           position={{
-    //               lat: parseFloat(events.lat),
-    //               lng: parseFloat(events.long)
-    //           }}  
-              
-    //     </GoogleMap>    
-    //     );
+
+    onMarkerClick = (props, marker, e) =>
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
+ 
+    onMapClicked = (props) => {
+        if (this.state.showingInfoWindow) {
+        this.setState({
+            showingInfoWindow: false,
+            activeMarker: null
+        })
+        }
+    };
 
   render(){
     return(
@@ -74,6 +64,13 @@ export class MapContainer extends Component {
         height: '100%'}}
         initialCenter={{lat: 43.305112, lng: -96.432149}}>
         {this.displayMarkers()}
+        <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.showingInfoWindow}>
+            <div>
+              <h1>{this.state.selectedPlace.name}</h1>
+            </div>
+        </InfoWindow>
         </Map>
     )
   }
