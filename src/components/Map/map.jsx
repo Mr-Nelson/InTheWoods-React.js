@@ -1,64 +1,84 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import axios from 'axios';
-import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
+
+//import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
+import {Map,GoogleApiWrapper, Marker} from 'google-maps-react'
 import './map.css';
-import { Tonality } from '@material-ui/icons';
+import { LinearProgress } from '@material-ui/core';
 
 
-const Map = (props) => {
-    const [events, setEvent] = useState([]);
-    const [eventLocation, setEventLocation] = useState(null);
-    const [selectedEvent, setSelectedEvent] = useState(null);
-    const [latLong, setLatLong] = useState([]);
-    
-    const WrappedMap = withGoogleMap((map) => 
-    <GoogleMap
-        defaultZoom= {14}
-        defaultCenter={{ lat: 43.305112, lng: -96.432149 }}
-        >
-            {events.map(event => (
-              <Marker
-              key={event.eventId}
-              position={{
-                  lat: parseFloat(events.lat),
-                  lng: parseFloat(events.long)
-              }}  
-              onClick= {() => {setSelectedEvent(event);}} />
-            ))};
-            {console.log(events)}
-            {selectedEvent && (
-                <InfoWindow
-                position={selectedEvent.eventLocation}
-                >
-                    <div>event.description</div>
-                </InfoWindow>
-            )}  
-        </GoogleMap>    
-        );
-    useEffect (() => {
-        fetchData();
-    }, [events.length > 0])
-
-    const fetchData = async () => {
-        try{
-            const res = await axios.get(`https://localhost:44394/api/event`)
-            console.log(res)
-            setEvent(res.data)
+export class MapContainer extends Component {
+    constructor(props){
+        super(props)
+        this.state={
+            events: []
         }
-        catch(err) {
-            alert(err)
-        }}
+    }
 
-    return (
-        <div style={{width: "100vw", height: "100vh"}}>
-            <div id="Inwood Events" />
-            <WrappedMap
-                googleMapURL ={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY`}
-                loadingElement={<div style={{ height: "100%" }}/>}
-                containerElement={<div style={{ height: "100%" }}/>}
-                mapElement={<div style={{ height: "100%" }}/>}
-            />
-        </div>
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    fetchData = () => {
+        const res = axios.get(`https://localhost:44394/api/event`).then((res)=>{
+            this.setState ({
+                events:res.data
+        })
+        })
+        console.log(this.events)
+    }
+
+    displayMarkers = () => {
+        return this.state.events.map((occasion, eventId) => {
+          return <Marker key={eventId} id={occasion.eventName} position={{
+            lat: parseFloat(occasion.lat),
+            lng: parseFloat(occasion.long)
+         }} 
+         onClick={occasion.eventDate} />
+        });
+        //       {console.log(events)}
+        //       {selectedEvent && (
+        //           <InfoWindow
+        //           position={selectedEvent.eventLocation}
+        //           >
+        //               <div>{selectedEvent.description}</div>
+        //           </InfoWindow>
+            //   )}
+    }
+    // const [events, setEvent] = useState([]);
+    // const [selectedEvent, setSelectedEvent] = useState(null);
+    // const [isLoading, setIsLoading] = useState(true);
+    
+    // const WrappedMap = withGoogleMap((map) => 
+    // <GoogleMap
+    //     defaultZoom= {14}
+    //     defaultCenter={{ lat: 43.305112, lng: -96.432149 }}
+    //     >
+    //         {events.map(event => (
+    //           <Marker
+    //           key={event.eventId}
+    //           position={{
+    //               lat: parseFloat(events.lat),
+    //               lng: parseFloat(events.long)
+    //           }}  
+              
+    //     </GoogleMap>    
+    //     );
+
+  render(){
+    return(
+        <Map
+        google ={this.props.google}
+        zoom = {14}
+        style={{ width: '100%',
+        height: '100%'}}
+        initialCenter={{lat: 43.305112, lng: -96.432149}}>
+        {this.displayMarkers()}
+        </Map>
     )
-};
-export default Map;
+  }
+}
+
+export default GoogleApiWrapper({
+    apiKey: 'AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY'
+})(MapContainer)        

@@ -16,11 +16,11 @@ import EventCalendar from '../Calendar/eventCalendar';
 import MakeCalendar from '../Calendar/FullCalendar';
 import Department from '../Departments/department';
 import Logout from '../Logout/logout';
-import Map from '../Map/map';
+import MapContainer from '../Map/map.jsx';
 import { Container } from '@material-ui/core';
 
 
-function App () {
+function App (props) {
   const [user, setUser] = useState();
 
 
@@ -57,6 +57,7 @@ function App () {
     return (
       <React.Fragment>
         <TitleBar />
+
         
         <Switch>
 
@@ -96,7 +97,7 @@ function App () {
             
             <Route
             path="/map"
-            render={(props) => <Map {...props} />}
+            render={(props) => <MapContainer {...props} google={props.google}/>}
             Redirect="/"
           />
 

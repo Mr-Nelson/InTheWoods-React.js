@@ -1,5 +1,6 @@
 import React, {useState, createContext, useEffect, useContext} from 'react';
 import useForm from '../UseForm/useForm'
+import useSubForm from '../UseForm/useSubForm';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
@@ -59,7 +60,7 @@ const Comment = (props) => {
     const [onShow, setOnShow] = useState(false);
     const classes = useStyles();
     const {values, handleChange, handleSubmit} = useForm(create);
-    const {subValues, handleSubChange, handleSubSubmit} = useSubForm(subCreate)
+    const {subValues, handleSubChange, handleSubSubmit} = useSubForm(subCreate);
     const ac = new AbortController();
     
     function create () {
@@ -178,6 +179,55 @@ const Comment = (props) => {
                   <ul key={subComment.commentId} > 
                   <ListItem>{subComment.userComment}</ListItem>
                   <ListItem>{subComment.userSubComment}</ListItem>
+                  <ListItem>
+                    <Container component="nested" maxWidth="sm">
+                      <CssBaseline />
+                      <div className={classes.paper}>
+                      <Typography item xs={12} sm={6} component="h1" variant="h8">
+                          SubComment
+                      </Typography>
+                      <form className={classes.form}  noValidate onSubmit={handleSubSubmit}>
+                          <Grid container spacing={0}>
+                          <Grid item xs={12}>
+                              <TextField
+                              autoComplete="usubcomment"
+                              name="userSubComment"
+                              variant="outlined"
+                              fullWidth
+                              id="userSubComment"
+                              label="SubComment"
+                              onChange={handleSubChange}
+                              values={subValues.userSubComment}
+                              autoFocus
+                              />
+                          </Grid>
+                          </Grid>
+                          <Grid container justifyContent="flex-end">
+                          <Button 
+                      type="submit"
+                      halfWidth="true"
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                      >
+                      Submit
+                      </Button>
+                          </Grid>
+                      </form>
+                      </div>
+                    </Container>
+                  </ListItem>
+                  <Divider variant="inset" component="ul" />
+                  </ul>
+                ))))}  
+              </List>
+              <List
+                component="nav"
+                aria-labelledby="nested-list-subheader">
+                {comments.subComment == 0 && (
+                (comments.map(comment => (
+                  <ul key={comment.Id} > 
+                  <ListItem>{comment.userComment}</ListItem>
                   <ListItem>
                     <Container component="nested" maxWidth="sm">
                       <CssBaseline />

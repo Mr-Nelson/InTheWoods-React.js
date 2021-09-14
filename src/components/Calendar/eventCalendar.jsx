@@ -8,15 +8,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { CssBaseline } from '@material-ui/core';
-import { Avatar } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
-import { Link } from '@material-ui/core';
-import { Box } from '@material-ui/core';
 import { Container } from '@material-ui/core';
 import { Button } from '@material-ui/core';
-import DateTimePicker from 'react-datetime-picker';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -59,13 +55,17 @@ const EventCalendar = (props) => {
     const classes = useStyles();
     const{values, handleChange, handleSubmit} = useForm(logEvent);
     
-    function logEvent() {;
-      latLong(events);
-      console.log(events);
+    function logEvent() {
+      setEvent (values);
+      eventRequest(events);
       }
 
+    async function eventRequest() {
+      latLong(events);
+    }
+
     const latLong = async () => {
-      setEvent (values);
+
       if( events.address != "" ) {
       var response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${events.address}&key=AIzaSyDh6A6X-LRCTfF57FUpDFP56syHXGkm3sY`)
       var results = (response.data);
